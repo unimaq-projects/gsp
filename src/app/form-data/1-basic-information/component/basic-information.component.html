@@ -1,0 +1,26 @@
+<div class="form-container">
+  <h2>Información básica</h2>
+  <form (ngSubmit)="addRow()" #form="ngForm">
+    <label>
+      Request:
+      <input type="text" [(ngModel)]="request" name="request" required />
+    </label>
+    <label>
+      Quote:
+      <input type="text" [(ngModel)]="quote" name="quote" required>
+    </label>
+    <label>
+      WO:
+      <input type="text" [(ngModel)]="wo" name="wo" required />
+    </label>
+
+    <label>
+      IO:
+      <input type="text" [(ngModel)]="io" name="io" required />
+    </label>
+
+    <button type="submit" [disabled]="!form.valid">Agregar</button>
+  </form>
+
+  <p *ngIf="response">{{ response }}</p>
+</div>
