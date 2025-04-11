@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-evaluation-date',
+  selector: 'evaluation-date-component',
   imports: [],
   templateUrl: './evaluation-date.component.html',
   standalone: true,

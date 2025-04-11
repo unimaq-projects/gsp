@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-end-date',
+  selector: 'end-date-component',
   imports: [],
   templateUrl: './end-date.component.html',
   standalone: true,

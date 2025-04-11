@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-part-date',
+  selector: 'part-date-component',
   imports: [],
   templateUrl: './part-date.component.html',
   standalone: true,

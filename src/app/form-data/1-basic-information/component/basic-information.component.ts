@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {NocodeapiService} from '../../../nocodeapi/nocodeapi.service';
 import {FormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
 
 @Component({
-  selector: '1-basic-information-component',
+  selector: 'basic-information-component',
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './basic-information.component.html',
   standalone: true,

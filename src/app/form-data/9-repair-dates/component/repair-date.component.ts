@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-repair-date',
+  selector: 'repair-date-component',
   imports: [],
   templateUrl: './repair-date.component.html',
   standalone: true,

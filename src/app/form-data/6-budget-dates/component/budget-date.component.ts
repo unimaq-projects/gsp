@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-budget-date',
+  selector: 'budget-date-component',
   imports: [],
   templateUrl: './budget-date.component.html',
   standalone: true,
