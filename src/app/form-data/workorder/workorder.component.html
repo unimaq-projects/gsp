@@ -1,6 +1,6 @@
 <form [formGroup]="completeForm">
   <navbar-component/>
-  <basic-information-component/>
+  <basic-information-component [basicInformationForm]="getBasicInformation()"/>
   <detailed-information-component/>
   <equipment-information-component/>
   <start-date-component/>
@@ -12,4 +12,5 @@
   <end-date-component/>
   <compliance-component/>
   <other-component/>
+  <button (click)="addWorkOrder()">Guardar</button>
 </form>
