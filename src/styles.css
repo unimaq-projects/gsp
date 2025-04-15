@@ -9,3 +9,33 @@
   --text-color: black;
   --text-inverted-color: white;
 }
+
+.subtitle{
+  padding: 1rem;
+  font-style: italic;
+  color: slategray;
+}
+
+.container{
+  width: 80%;
+  margin: auto;
+}
+
+.form-container {
+  width: 80%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 2rem;
+  grid-row-gap: 1rem;
+}
+
+input, p-select, p-date-picker>span {
+  width: 100%;
+}
+
+.input-max-width{
+  grid-column: 1 / span 3;
+}
+
+

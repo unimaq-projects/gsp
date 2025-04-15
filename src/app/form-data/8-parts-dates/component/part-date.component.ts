@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'part-date-component',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './part-date.component.css'
 })
 export class PartDateComponent {
-
+  @Input() partDateForm !: FormGroup;
 }

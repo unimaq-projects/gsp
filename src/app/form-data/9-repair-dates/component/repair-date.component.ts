@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'repair-date-component',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './repair-date.component.css'
 })
 export class RepairDateComponent {
-
+  @Input() repairDateForm !: FormGroup;
 }

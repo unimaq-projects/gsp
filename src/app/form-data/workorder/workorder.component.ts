@@ -23,6 +23,7 @@ import {BrandEnum} from '../3-equipment-information/enums/brand.enum';
 import {BudgetStateEnum} from '../6-budget-dates/enums/budget-state.enum';
 import {DefaultCompletionStateEnum} from '../../shared/enums/default-completion-state.enum';
 import {ComplianceMotiveEnum} from '../11-compliance/enums/compliance-motive.enum';
+import {Button} from 'primeng/button';
 @Component({
   selector: 'app-workorder',
   imports: [
@@ -40,7 +41,8 @@ import {ComplianceMotiveEnum} from '../11-compliance/enums/compliance-motive.enu
     EndDateComponent,
     ComplianceComponent,
     OtherComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Button
   ],
   templateUrl: './workorder.component.html',
   standalone: true,
@@ -195,6 +197,7 @@ export class WorkorderComponent implements OnInit{
       formData.detailedInformation.supervisor,
       formData.detailedInformation.technician,
       formData.detailedInformation.attentionType,
+      /*
       formData.detailedInformation.state,
       formData.detailedInformation.comment,
       formData.equipmentInformation.equipment,
@@ -236,8 +239,11 @@ export class WorkorderComponent implements OnInit{
       formData.compliance.motive,
       formData.compliance.motiveDetails,
       formData.other.emergency,
+       */
     ];
-    (await this.noCodeApiService.addData(dataToSend)).subscribe({
+    console.log("data: ", dataToSend);
+    console.log("data con []: ",[dataToSend]);
+    (await this.noCodeApiService.addData([dataToSend])).subscribe({
       next: () => {
         this.response = 'Fila agregada correctamente';
         alert(this.response);

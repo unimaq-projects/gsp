@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'budget-date-component',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './budget-date.component.css'
 })
 export class BudgetDateComponent {
-
+  @Input() budgetDateForm !: FormGroup;
 }

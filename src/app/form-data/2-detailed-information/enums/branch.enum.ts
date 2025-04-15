@@ -1,5 +1,5 @@
 export enum BranchEnum {
-  LIMA = "LIMA",
+  LIMA = "Lima",
   CAJAMARCA = "Cajamarca",
   HUANCAYO = "Huancayo",
   PIURA = "Piura",

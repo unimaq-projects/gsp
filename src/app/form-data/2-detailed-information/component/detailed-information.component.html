@@ -1,1 +1,34 @@
-<p>component works!</p>
+<div class="container">
+  <h2 class="subtitle">Información Detallada</h2>
+  <div [formGroup]="detailedInformationForm" class="form-container">
+    <p-floatlabel variant="on">
+      <p-select id="branch" inputId="branch" formControlName="branch"
+                  [options]="branchOptions" optionLabel="label" optionValue="value"/>
+      <label for="branch">Sucursal</label>
+    </p-floatlabel>
+    <p-float-label variant="on">
+      <p-select id="supervisor" inputId="supervisor" formControlName="supervisor"
+                  [options]="supervisorOptions" optionLabel="label" optionValue="value"/>
+      <label for="supervisor">Supervisor</label>
+    </p-float-label>
+    <p-float-label variant="on">
+      <p-select id="technician" inputId="technician" formControlName="technician"
+                  [options]="technicianOptions" optionLabel="label" optionValue="value"/>
+      <label for="technician">Técnico</label>
+    </p-float-label>
+    <p-float-label variant="on">
+      <p-select id="attentionType" inputId="attentionType" formControlName="attentionType"
+                  [options]="attentionTypeOptions" optionLabel="label" optionValue="value"/>
+      <label for="attentionType">Atención</label>
+    </p-float-label>
+    <p-float-label variant="on">
+      <p-select id="state" inputId="state" formControlName="state"
+                  [options]="stateOptions" optionLabel="label" optionValue="value"/>
+      <label for="state">Estado</label>
+    </p-float-label>
+    <p-floatlabel variant="on" class="input-max-width">
+      <input id="comment" type="text" pInputText formControlName="comment">
+      <label for="comment">Comentarios</label>
+    </p-floatlabel>
+  </div>
+</div>

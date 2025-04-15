@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'compliance-component',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './compliance.component.css'
 })
 export class ComplianceComponent {
-
+  @Input() complianceForm !: FormGroup;
 }

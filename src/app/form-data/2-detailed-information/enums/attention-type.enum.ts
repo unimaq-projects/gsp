@@ -12,3 +12,5 @@ export enum AttentionTypeEnum {
   CONNECTIVITY = "Conectividad",
   BONUS = "Bono"
 }
+
+

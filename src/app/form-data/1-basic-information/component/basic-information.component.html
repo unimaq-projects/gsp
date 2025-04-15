@@ -1,16 +1,34 @@
-<div [formGroup]="basicInformationForm">
-  <label for="request">Request</label>
-  <input type="number" id="request" formControlName="request">
-  <label for="wo">WO</label>
-  <input type="number" id="wo" formControlName="wo">
-  <label for="io">IO</label>
-  <input type="number" id="io" formControlName="io">
-  <label for="quote">Quote</label>
-  <input type="number" id="quote" formControlName="quote">
-  <label for="bp">BP</label>
-  <input type="text" id="bp" formControlName="bp">
-  <label for="client">Cliente</label>
-  <input type="text" id="client" formControlName="client">
-  <label for="description">Descripción</label>
-  <input type="text" id="description" formControlName="description">
+<div class="container">
+  <h2 class="subtitle">Información Básica</h2>
+  <div [formGroup]="basicInformationForm" class="form-container">
+    <p-floatlabel variant="on">
+      <input id="request" pInputText type="number" formControlName="request">
+      <label for="request">Request</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="wo" pInputText type="number" formControlName="wo">
+      <label for="wo">WO</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="io" type="number" pInputText formControlName="io">
+      <label for="io">IO</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="quote" type="number" pInputText formControlName="quote">
+      <label for="quote">Quote</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="bp" type="text" pInputText formControlName="bp">
+      <label for="bp">BP</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="client" type="text" pInputText formControlName="client">
+      <label for="client">Cliente</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on" class="input-max-width">
+      <input id="description" type="text" pInputText formControlName="description">
+      <label for="description">Descripción</label>
+    </p-floatlabel>
+  </div>
 </div>
+

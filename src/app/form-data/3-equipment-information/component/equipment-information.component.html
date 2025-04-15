@@ -1,1 +1,26 @@
-<p>equipment-information works!</p>
+<div class="container">
+  <h2 class="subtitle">Información del Equipo</h2>
+  <div [formGroup]="equipmentInformationForm" class="form-container">
+    <p-floatlabel variant="on">
+      <input id="equipment" pInputText type="text" formControlName="equipment">
+      <label for="equipment">Equipo</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="model" pInputText type="text" formControlName="model">
+      <label for="model">Modelo</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-dropdown id="brand" inputId="brand" formControlName="brand"
+                  [options]="brandOptions" [showClear]="true"/>
+      <label for="brand">Marca</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="fabricSeries" pInputText type="text" formControlName="fabricSeries">
+      <label for="fabricSeries">Marca</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input id="sapCode" pInputText type="text" formControlName="sapCode">
+      <label for="sapCode">Marca</label>
+    </p-floatlabel>
+  </div>
+</div>

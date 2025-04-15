@@ -1,16 +1,16 @@
 <form [formGroup]="completeForm">
   <navbar-component/>
   <basic-information-component [basicInformationForm]="getBasicInformation()"/>
-  <detailed-information-component/>
-  <equipment-information-component/>
-  <start-date-component/>
-  <evaluation-date-component/>
-  <budget-date-component/>
-  <provider-date-component/>
-  <part-date-component/>
-  <repair-date-component/>
-  <end-date-component/>
-  <compliance-component/>
-  <other-component/>
-  <button (click)="addWorkOrder()">Guardar</button>
+  <detailed-information-component [detailedInformationForm]="getDetailedInformation()"/>
+  <equipment-information-component [equipmentInformationForm]="getEquipmentInformation()"/>
+  <start-date-component [startDateForm]="getStartDates()"/>
+  <evaluation-date-component [evaluationDateForm]="getEvaluationDates()"/>
+  <budget-date-component [budgetDateForm]="getBudgetDates()"/>
+  <provider-date-component [providerDateForm]="getProviderDates()"/>
+  <part-date-component [partDateForm]="getPartDates()"/>
+  <repair-date-component [repairDateForm]="getRepairDates()"/>
+  <end-date-component [endDateForm]="getEndDates()"/>
+  <compliance-component [complianceForm]="getCompliance()"/>
+  <other-component [otherForm]="getOther()"/>
+  <p-button (click)="addWorkOrder()">Guardar</p-button>
 </form>
