@@ -1,1 +1,21 @@
-<p>repair-date works!</p>
+<div class="container">
+  <h2 class="subtitle">Fechas de Reparación</h2>
+  <div [formGroup]="repairDateForm" class="form-container">
+    <p-floatlabel variant="on">
+      <p-date-picker id="repairPlanStart" formControlName="repairPlanStart" dateFormat="dd/mm/yy"/>
+      <label for="repairPlanStart">Fecha Planeada de Inicio</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-date-picker id="repairRealStart" formControlName="repairRealStart" dateFormat="dd/mm/yy"/>
+      <label for="repairRealStart">Fecha Real de Inicio</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-date-picker id="repairPlanEnd" formControlName="repairPlanEnd" dateFormat="dd/mm/yy"/>
+      <label for="repairPlanEnd">Fecha Planeada de Fin</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-date-picker id="repairRealEnd" formControlName="repairRealEnd" dateFormat="dd/mm/yy"/>
+      <label for="repairRealEnd">Fecha Real de Fin</label>
+    </p-floatlabel>
+  </div>
+</div>

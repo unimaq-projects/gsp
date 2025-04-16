@@ -12,5 +12,9 @@
   <end-date-component [endDateForm]="getEndDates()"/>
   <compliance-component [complianceForm]="getCompliance()"/>
   <other-component [otherForm]="getOther()"/>
-  <p-button (click)="addWorkOrder()">Guardar</p-button>
+  <div class="container">
+    <div style="display: flex; align-items: center; justify-content: center; padding: 1rem">
+      <p-button (click)="addWorkOrder()" size="large">Guardar</p-button>
+    </div>
+  </div>
 </form>

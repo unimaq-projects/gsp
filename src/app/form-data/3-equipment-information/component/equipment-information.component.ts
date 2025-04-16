@@ -4,6 +4,7 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {BrandEnum} from '../enums/brand.enum';
 import {DropdownModule} from 'primeng/dropdown';
+import {Select} from 'primeng/select';
 
 @Component({
   selector: 'equipment-information-component',
@@ -11,7 +12,8 @@ import {DropdownModule} from 'primeng/dropdown';
     ReactiveFormsModule,
     FloatLabel,
     InputText,
-    DropdownModule
+    DropdownModule,
+    Select
   ],
   templateUrl: './equipment-information.component.html',
   standalone: true,

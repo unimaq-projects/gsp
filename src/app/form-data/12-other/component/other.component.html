@@ -1,1 +1,9 @@
-<p>other works!</p>
+<div class="container">
+  <h2 class="subtitle">Otros</h2>
+  <div [formGroup]="otherForm" class="form-container">
+    <div style="display: flex; flex-direction: row; align-items: center; gap: 1rem">
+      <span>Emergencia</span>
+      <p-toggle-switch id="emergency" formControlName="emergency"/>
+    </div>
+  </div>
+</div>

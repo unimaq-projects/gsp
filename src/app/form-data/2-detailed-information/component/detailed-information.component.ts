@@ -9,8 +9,8 @@ import {AttentionTypeEnum} from '../enums/attention-type.enum';
 import {StateEnum} from '../enums/state.enum';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
-import {AutoComplete} from 'primeng/autocomplete';
 import {Select} from 'primeng/select';
+import {BayEnum} from '../enums/bay.enum';
 
 @Component({
   selector: 'detailed-information-component',
@@ -19,7 +19,6 @@ import {Select} from 'primeng/select';
     DropdownModule,
     FloatLabel,
     InputText,
-    AutoComplete,
     Select
   ],
   templateUrl: './detailed-information.component.html',
@@ -34,6 +33,7 @@ export class DetailedInformationComponent implements OnInit {
   technicianOptions: { label: string; value: string }[] = [];
   attentionTypeOptions: { label: string; value: string }[] = [];
   stateOptions: { label: string, value: string }[] = [];
+  bayOptions: { label: string, value: string }[] = [];
   private branchSubscription?: Subscription;
   private technicianSubscription?: Subscription;
 
@@ -54,6 +54,10 @@ export class DetailedInformationComponent implements OnInit {
     this.stateOptions = Object.values(StateEnum).map((state) => ({
       label: state,
       value: state
+    }));
+    this.bayOptions = Object.values(BayEnum).map((bay) => ({
+      label: bay,
+      value: bay
     }));
 
     this.branchSubscription = this.detailedInformationForm

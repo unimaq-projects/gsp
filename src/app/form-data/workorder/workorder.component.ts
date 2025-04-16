@@ -24,6 +24,7 @@ import {BudgetStateEnum} from '../6-budget-dates/enums/budget-state.enum';
 import {DefaultCompletionStateEnum} from '../../shared/enums/default-completion-state.enum';
 import {ComplianceMotiveEnum} from '../11-compliance/enums/compliance-motive.enum';
 import {Button} from 'primeng/button';
+import {DateFormatterEntity} from '../../shared/entities/date-formatter.entity';
 @Component({
   selector: 'app-workorder',
   imports: [
@@ -57,192 +58,158 @@ export class WorkorderComponent implements OnInit{
   ngOnInit(): void {
     this.completeForm = this.fb.group({
       basicInformation: this.fb.group({
-        request: new FormControl(0),
-        wo: new FormControl(0),
-        io: new FormControl(0),
-        quote: new FormControl(0),
+        request: new FormControl(),
+        wo: new FormControl(),
+        io: new FormControl(),
+        quote: new FormControl(),
         bp: new FormControl(''),
         client: new FormControl(''),
         description: new FormControl('')
       }),
       detailedInformation: this.fb.group({
-        branch: new FormControl(BranchEnum),
-        supervisor: new FormControl(SupervisorEntity),
-        technician: new FormControl(TechnicianEntity),
-        attentionType: new FormControl(AttentionTypeEnum),
-        state: new FormControl(StateEnum),
+        branch: new FormControl(null),
+        supervisor: new FormControl(null),
+        technician: new FormControl(null),
+        attentionType: new FormControl(null),
+        state: new FormControl(null),
+        bay: new FormControl(null),
         comment: new FormControl('')
       }),
       equipmentInformation: this.fb.group({
         equipment: new FormControl(''),
         model: new FormControl(''),
-        brand: new FormControl(BrandEnum),
+        brand: new FormControl(null),
         fabricSeries: new FormControl(''),
         sapCode: new FormControl('')
       }),
       startDates: this.fb.group({
-        requirement: new FormControl(Date),
-        arrival: new FormControl(Date),
-        woCreation: new FormControl(Date),
-        firstLabor: new FormControl(Date)
+        requirement: new FormControl(null),
+        arrival: new FormControl(null),
+        woCreation: new FormControl(null),
+        firstLabor: new FormControl(null)
       }),
       evaluationDates: this.fb.group({
-        evaluationPlanStart: new FormControl(Date),
-        evaluationRealStart: new FormControl(Date),
-        evaluationPlanEnd: new FormControl(Date),
-        evaluationRealEnd: new FormControl(Date)
+        evaluationPlanStart: new FormControl(null),
+        evaluationRealStart: new FormControl(null),
+        evaluationPlanEnd: new FormControl(null),
+        evaluationRealEnd: new FormControl(null)
       }),
       budgetDates: this.fb.group({
-        sendingDate: new FormControl(Date),
-        receptionDate: new FormControl(Date),
-        budgetState: new FormControl(BudgetStateEnum)
+        sendingDate: new FormControl(null),
+        receptionDate: new FormControl(null),
+        budgetState: new FormControl(null)
       }),
       providerDates: this.fb.group({
-        providerPlanStart: new FormControl(Date),
-        providerRealStart: new FormControl(Date),
-        providerPlanEnd: new FormControl(Date),
-        providerRealEnd: new FormControl(Date),
-        providerState: new FormControl(DefaultCompletionStateEnum)
+        providerPlanStart: new FormControl(null),
+        providerRealStart: new FormControl(null),
+        providerPlanEnd: new FormControl(null),
+        providerRealEnd: new FormControl(null),
+        providerState: new FormControl(null)
       }),
       partDates: this.fb.group({
-        partState: new FormControl(DefaultCompletionStateEnum),
-        orderDate: new FormControl(Date),
-        partPlanArrival: new FormControl(Date),
-        partRealArrival: new FormControl(Date)
+        partState: new FormControl(null),
+        orderDate: new FormControl(null),
+        partPlanArrival: new FormControl(null),
+        partRealArrival: new FormControl(null)
       }),
       repairDates: this.fb.group({
-        repairPlanStart: new FormControl(Date),
-        repairRealStart: new FormControl(Date),
-        repairPlanEnd: new FormControl(Date),
-        repairRealEnd: new FormControl(Date)
+        repairPlanStart: new FormControl(null),
+        repairRealStart: new FormControl(null),
+        repairPlanEnd: new FormControl(null),
+        repairRealEnd: new FormControl(null)
       }),
       endDates: this.fb.group({
-        lastLabor: new FormControl(Date),
-        realEndDate: new FormControl(Date),
-        closingDate: new FormControl(Date),
-        billingDate: new FormControl(Date),
-        reportSendingDate: new FormControl(Date),
-        nbd: new FormControl(Date)
+        lastLabor: new FormControl(null),
+        realEndDate: new FormControl(null),
+        closingDate: new FormControl(null),
+        billingDate: new FormControl(null),
+        reportSendingDate: new FormControl(null),
+        nbd: new FormControl(null),
+        nbdChangingDateReason: new FormControl('')
       }),
       compliance: this.fb.group({
-        compliance: new FormControl(Boolean),
-        motive: new FormControl(ComplianceMotiveEnum),
-        motiveDetails: new FormControl(String)
+        compliance: new FormControl(''),
+        motive: new FormControl(null),
+        motiveDetails: new FormControl('')
       }),
       other: this.fb.group({
-        emergency: new FormControl(Boolean)
+        emergency: new FormControl('')
       })
     });
   }
 
-  getBasicInformation() : FormGroup {
-    return this.completeForm.controls['basicInformation'] as FormGroup;
-  }
+  getBasicInformation() : FormGroup { return this.completeForm.controls['basicInformation'] as FormGroup; }
+  getDetailedInformation(): FormGroup { return this.completeForm.controls['detailedInformation'] as FormGroup; }
+  getEquipmentInformation(): FormGroup { return this.completeForm.controls['equipmentInformation'] as FormGroup; }
 
-  getDetailedInformation(): FormGroup {
-    return this.completeForm.controls['detailedInformation'] as FormGroup;
-  }
+  getStartDates(): FormGroup { return this.completeForm.controls['startDates'] as FormGroup; }
+  getEvaluationDates(): FormGroup { return this.completeForm.controls['evaluationDates'] as FormGroup; }
+  getBudgetDates(): FormGroup { return this.completeForm.controls['budgetDates'] as FormGroup; }
+  getProviderDates(): FormGroup { return this.completeForm.controls['providerDates'] as FormGroup; }
+  getPartDates(): FormGroup { return this.completeForm.controls['partDates'] as FormGroup; }
+  getRepairDates(): FormGroup { return this.completeForm.controls['repairDates'] as FormGroup; }
+  getEndDates(): FormGroup { return this.completeForm.controls['endDates'] as FormGroup; }
+  getCompliance(): FormGroup { return this.completeForm.controls['compliance'] as FormGroup; }
+  getOther(): FormGroup { return this.completeForm.controls['other'] as FormGroup; }
 
-  getEquipmentInformation(): FormGroup {
-    return this.completeForm.controls['equipmentInformation'] as FormGroup;
-  }
-
-  getStartDates(): FormGroup {
-    return this.completeForm.controls['startDates'] as FormGroup;
-  }
-
-  getEvaluationDates(): FormGroup {
-    return this.completeForm.controls['evaluationDates'] as FormGroup;
-  }
-
-  getBudgetDates(): FormGroup {
-    return this.completeForm.controls['budgetDates'] as FormGroup;
-  }
-
-  getProviderDates(): FormGroup {
-    return this.completeForm.controls['providerDates'] as FormGroup;
-  }
-
-  getPartDates(): FormGroup {
-    return this.completeForm.controls['partDates'] as FormGroup;
-  }
-
-  getRepairDates(): FormGroup {
-    return this.completeForm.controls['repairDates'] as FormGroup;
-  }
-
-  getEndDates(): FormGroup {
-    return this.completeForm.controls['endDates'] as FormGroup;
-  }
-
-  getCompliance(): FormGroup {
-    return this.completeForm.controls['compliance'] as FormGroup;
-  }
-
-  getOther(): FormGroup {
-    return this.completeForm.controls['other'] as FormGroup;
-  }
-
-  async addWorkOrder(){
+  async addWorkOrder() {
     const formData = this.completeForm.value;
     const dataToSend = [
       formData.basicInformation.request,
       formData.basicInformation.wo,
       formData.basicInformation.io,
       formData.basicInformation.quote,
-      formData.basicInformation.bp,
-      formData.basicInformation.client,
-      formData.basicInformation.description,
       formData.detailedInformation.branch,
       formData.detailedInformation.supervisor,
-      formData.detailedInformation.technician,
       formData.detailedInformation.attentionType,
-      /*
-      formData.detailedInformation.state,
-      formData.detailedInformation.comment,
+      formData.basicInformation.description,
+      formData.basicInformation.bp,
+      formData.basicInformation.client,
       formData.equipmentInformation.equipment,
       formData.equipmentInformation.model,
       formData.equipmentInformation.brand,
       formData.equipmentInformation.fabricSeries,
       formData.equipmentInformation.sapCode,
-      formData.startDates.requirement ? formData.startDates.requirement.toString() : null,
-      formData.startDates.arrival ? formData.startDates.arrival.toString() : null,
-      formData.startDates.woCreation ? formData.startDates.woCreation.toString() : null,
-      formData.startDates.firstLabor ? formData.startDates.firstLabor.toString() : null,
-      formData.evaluationDates.evaluationPlanStart ? formData.evaluationDates.evaluationPlanStart.toString() : null,
-      formData.evaluationDates.evaluationRealStart ? formData.evaluationDates.evaluationRealStart.toString() : null,
-      formData.evaluationDates.evaluationPlanEnd ? formData.evaluationDates.evaluationPlanEnd.toString() : null,
-      formData.evaluationDates.evaluationRealEnd ? formData.evaluationDates.evaluationRealEnd.toString() : null,
-      formData.budgetDates.sendingDate ? formData.budgetDates.sendingDate.toString() : null,
-      formData.budgetDates.receptionDate ? formData.budgetDates.receptionDate.toString() : null,
+      formData.detailedInformation.state,
+      formData.detailedInformation.comment,
+      DateFormatterEntity(formData.startDates.requirement),
+      DateFormatterEntity(formData.startDates.arrival),
+      DateFormatterEntity(formData.startDates.woCreation),
+      DateFormatterEntity(formData.startDates.firstLabor),
+      DateFormatterEntity(formData.evaluationDates.evaluationPlanStart),
+      DateFormatterEntity(formData.evaluationDates.evaluationRealStart),
+      DateFormatterEntity(formData.evaluationDates.evaluationPlanEnd),
+      DateFormatterEntity(formData.evaluationDates.evaluationRealEnd),
+      DateFormatterEntity(formData.budgetDates.sendingDate),
+      DateFormatterEntity(formData.budgetDates.receptionDate),
       formData.budgetDates.budgetState,
-      formData.providerDates.providerPlanStart ? formData.providerDates.providerPlanStart.toString(): null,
-      formData.providerDates.providerRealStart ? formData.providerDates.providerRealStart.toString() : null,
-      formData.providerDates.providerPlanEnd ? formData.providerDates.providerPlanEnd.toString() : null,
-      formData.providerDates.providerRealEnd ? formData.providerDates.providerRealEnd.toString(): null,
+      DateFormatterEntity(formData.providerDates.providerPlanStart),
+      DateFormatterEntity(formData.providerDates.providerRealStart),
+      DateFormatterEntity(formData.providerDates.providerPlanEnd),
+      DateFormatterEntity(formData.providerDates.providerRealEnd),
       formData.providerDates.providerState,
       formData.partDates.partState,
-      formData.partDates.orderDate ? formData.partDates.orderDate.toString() : null,
-      formData.partDates.partPlanArrival ? formData.partDates.partPlanArrival.toString() : null,
-      formData.partDates.partRealArrival ? formData.partDates.partRealArrival.toString() : null,
-      formData.repairDates.repairPlanStart ? formData.repairDates.repairPlanStart.toString(): null,
-      formData.repairDates.repairRealStart ? formData.repairDates.repairRealStart.toString() : null,
-      formData.repairDates.repairPlanEnd ? formData.repairDates.repairPlanEnd.toString() : null,
-      formData.repairDates.repairRealEnd ? formData.repairDates.repairRealEnd.toString() : null,
-      formData.endDates.lastLabor ? formData.endDates.lastLabor.toString() : null,
-      formData.endDates.realEndDate ? formData.endDates.realEndDate.toString() : null,
-      formData.endDates.closingDate ? formData.endDates.closingDate.toString() : null,
-      formData.endDates.billingDate ? formData.endDates.billingDate.toString() : null,
-      formData.endDates.reportSendingDate ? formData.endDates.reportSendingDate.toString() : null,
-      formData.endDates.nbd ? formData.endDates.nbd.toString() : null,
+      DateFormatterEntity(formData.partDates.orderDate),
+      DateFormatterEntity(formData.partDates.partPlanArrival),
+      DateFormatterEntity(formData.partDates.partRealArrival),
+      DateFormatterEntity(formData.repairDates.repairPlanStart),
+      DateFormatterEntity(formData.repairDates.repairRealStart),
+      DateFormatterEntity(formData.repairDates.repairPlanEnd),
+      DateFormatterEntity(formData.repairDates.repairRealEnd),
+      DateFormatterEntity(formData.endDates.nbd),
+      formData.endDates.nbdChangingDateReason,
+      DateFormatterEntity(formData.endDates.lastLabor),
+      DateFormatterEntity(formData.endDates.realEndDate),
       formData.compliance.compliance,
       formData.compliance.motive,
       formData.compliance.motiveDetails,
+      DateFormatterEntity(formData.endDates.reportSendingDate),
+      DateFormatterEntity(formData.endDates.closingDate),
+      DateFormatterEntity(formData.endDates.billingDate),
       formData.other.emergency,
-       */
+      formData.detailedInformation.technician,
+      formData.detailedInformation.bay
     ];
-    console.log("data: ", dataToSend);
-    console.log("data con []: ",[dataToSend]);
     (await this.noCodeApiService.addData([dataToSend])).subscribe({
       next: () => {
         this.response = 'Fila agregada correctamente';

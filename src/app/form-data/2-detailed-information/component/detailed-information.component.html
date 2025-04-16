@@ -26,6 +26,11 @@
                   [options]="stateOptions" optionLabel="label" optionValue="value"/>
       <label for="state">Estado</label>
     </p-float-label>
+    <p-float-label variant="on">
+      <p-select id="bay" inputId="bay" formControlName="bay"
+                [options]="bayOptions" optionLabel="label" optionValue="value"/>
+      <label for="bay">Bahía</label>
+    </p-float-label>
     <p-floatlabel variant="on" class="input-max-width">
       <input id="comment" type="text" pInputText formControlName="comment">
       <label for="comment">Comentarios</label>

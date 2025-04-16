@@ -1,1 +1,22 @@
-<p>part-date works!</p>
+<div class="container">
+  <h2 class="subtitle">Fechas de Repuestos</h2>
+  <div [formGroup]="partDateForm" class="form-container">
+    <p-float-label variant="on">
+      <p-select id="partState" inputId="partState" formControlName="partState"
+                [options]="partStateOptions" optionLabel="label" optionValue="value"/>
+      <label for="partState">Estado de los Repuestos</label>
+    </p-float-label>
+    <p-floatlabel variant="on">
+      <p-date-picker id="orderDate" formControlName="orderDate" dateFormat="dd/mm/yy"/>
+      <label for="orderDate">Fecha de Pedido de Repuestos</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-date-picker id="partPlanArrival" formControlName="partPlanArrival" dateFormat="dd/mm/yy"/>
+      <label for="partPlanArrival">Fecha de Planeada de Llegada</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-date-picker id="partRealArrival" formControlName="partRealArrival" dateFormat="dd/mm/yy"/>
+      <label for="partRealArrival">Fecha de Real de Llegada</label>
+    </p-floatlabel>
+  </div>
+</div>

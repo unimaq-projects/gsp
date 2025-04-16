@@ -1,1 +1,18 @@
-<p>compliance works!</p>
+<div class="container">
+  <h2 class="subtitle">Cumplimiento</h2>
+  <div [formGroup]="complianceForm" class="form-container">
+    <p-floatlabel variant="on">
+      <input id="compliance" pInputText type="text" formControlName="compliance">
+      <label for="compliance">¿Cumple?</label>
+    </p-floatlabel>
+    <p-float-label variant="on">
+      <p-select id="complianceMotive" inputId="complianceMotive" formControlName="complianceMotive"
+                [options]="complianceMotiveOptions" optionLabel="label" optionValue="value"/>
+      <label for="complianceMotive">Motivo</label>
+    </p-float-label>
+    <p-floatlabel variant="on" class="input-max-width">
+      <input id="motiveDetails" pInputText type="text" formControlName="motiveDetails">
+      <label for="motiveDetails">Detalles de cumplimiento</label>
+    </p-floatlabel>
+  </div>
+</div>
