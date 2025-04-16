@@ -1,0 +1,16 @@
+<div style="height: 100vh">
+  <nav>
+    <h2 class="nav-title">UNIMAQ</h2>
+  </nav>
+  <main>
+    <h1>¿Qué quieres hacer?</h1>
+    <div class="search-row">
+      <p-floatlabel variant="on">
+        <input id="createNewRequest" pInputText required [(ngModel)]="request" >
+        <label for="createNewRequest">Buscar Request</label>
+      </p-floatlabel>
+      <p-button (onClick)="goToWorkOrder(true)" [disabled]="request == ''">Buscar</p-button>
+    </div>
+    <p-button routerLink="work-order" size="large">Crear nuevo request</p-button>
+  </main>
+</div>

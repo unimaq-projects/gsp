@@ -108,5 +108,12 @@ export class TechnicianEntity {
     "Jesus David Juarez Lejabo",
     "Denilson Smix Ramos Elias"
   ];
-
+  Chiclayo: string[] = [
+    "William Nizama More",
+    "Jhyxon Hamer Quinde Marchena",
+    "Marco Antonio Sernaque Herrera",
+    "Ronaldo Censinii Risco Pusma",
+    "Jesus David Juarez Lejabo",
+    "Denilson Smix Ramos Elias"
+  ];
 }

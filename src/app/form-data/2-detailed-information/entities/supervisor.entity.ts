@@ -6,8 +6,9 @@ export class SupervisorEntity {
   Lambayeque: string[] = ["Franklin Saavedra"];
   Ilo: string[] = ["Hubert Mio"];
   Arequipa: string[] = ["Mijail Pinto"];
-  Huaraz: string[] = ["Ninguno"];
+  Huaraz: string[] = ["Carlos Lujan"];
   Trujillo: string[] = ["Carlos Lujan"];
   Huancayo: string[] = ["Juan Chara"];
   Ica: string[] = ["Ninguno"];
+  Chiclayo: string[] = ["Luis Fustamante"];
 }

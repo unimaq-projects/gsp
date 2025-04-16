@@ -9,5 +9,6 @@ export enum BranchEnum {
   HUARAZ = "Huaraz",
   ICA = "Ica",
   TRUJILLO = "Trujillo",
-  ILO = "Ilo"
+  ILO = "Ilo",
+  CHICLAYO = "Chiclayo"
 }
