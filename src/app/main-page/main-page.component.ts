@@ -5,6 +5,7 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NocodeapiService} from '../nocodeapi/nocodeapi.service';
+import {WorkorderEntity} from '../request/entities/workorder.entity';
 
 @Component({
   selector: 'app-main-page',
@@ -21,11 +22,12 @@ import {NocodeapiService} from '../nocodeapi/nocodeapi.service';
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
-  request: string = "";
+  request: number = 0;
   nocodeapiService: NocodeapiService = new NocodeapiService();
   constructor(private router: Router) {}
-  goToWorkOrder(search?:boolean):void {
+  goToWorkOrder(search?:boolean):Promise<WorkorderEntity | undefined> {
     if(!search) this.router.navigate(['work-order']);
-    this.nocodeapiService.getData();
+    console.log(this.nocodeapiService.getRequestById(this.request));
+    return this.nocodeapiService.getRequestById(this.request);
   }
 }

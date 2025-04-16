@@ -9,7 +9,7 @@
         <input id="createNewRequest" pInputText required [(ngModel)]="request" >
         <label for="createNewRequest">Buscar Request</label>
       </p-floatlabel>
-      <p-button (onClick)="goToWorkOrder(true)" [disabled]="request == ''">Buscar</p-button>
+      <p-button (onClick)="goToWorkOrder(true)" [disabled]="request == 0">Buscar</p-button>
     </div>
     <p-button routerLink="work-order" size="large">Crear nuevo request</p-button>
   </main>

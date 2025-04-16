@@ -1,0 +1,307 @@
+<navbar-component/>
+<form [formGroup]="requestForm">
+  <!--Basic Information-->
+  <div class="container">
+    <h2 class="subtitle">Información Básica</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <input id="request" pInputText type="number" formControlName="request">
+        <label for="request">Request</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="wo" pInputText type="number" formControlName="wo">
+        <label for="wo">WO</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="io" type="number" pInputText formControlName="io">
+        <label for="io">IO</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="quote" type="number" pInputText formControlName="quote">
+        <label for="quote">Quote</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="bp" type="text" pInputText formControlName="bp">
+        <label for="bp">BP</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="client" type="text" pInputText formControlName="client">
+        <label for="client">Cliente</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on" class="input-max-width">
+        <input id="description" type="text" pInputText formControlName="description">
+        <label for="description">Descripción</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Detailed Information-->
+  <div class="container">
+    <h2 class="subtitle">Información Detallada</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-select id="branch" inputId="branch" formControlName="branch"
+                  [options]="branchOptions" optionLabel="label" optionValue="value"/>
+        <label for="branch">Sucursal</label>
+      </p-floatlabel>
+      <p-float-label variant="on">
+        <p-select id="supervisor" inputId="supervisor" formControlName="supervisor"
+                  [options]="supervisorOptions" optionLabel="label" optionValue="value"/>
+        <label for="supervisor">Supervisor</label>
+      </p-float-label>
+      <p-float-label variant="on">
+        <p-select id="technician" inputId="technician" formControlName="technician"
+                  [options]="technicianOptions" optionLabel="label" optionValue="value"/>
+        <label for="technician">Técnico</label>
+      </p-float-label>
+      <p-float-label variant="on">
+        <p-select id="attentionType" inputId="attentionType" formControlName="attentionType"
+                  [options]="attentionTypeOptions" optionLabel="label" optionValue="value"/>
+        <label for="attentionType">Atención</label>
+      </p-float-label>
+      <p-float-label variant="on">
+        <p-select id="state" inputId="state" formControlName="state"
+                  [options]="requestStateOptions" optionLabel="label" optionValue="value"/>
+        <label for="state">Estado</label>
+      </p-float-label>
+      <p-float-label variant="on">
+        <p-select id="bay" inputId="bay" formControlName="bay"
+                  [options]="bayOptions" optionLabel="label" optionValue="value"/>
+        <label for="bay">Bahía</label>
+      </p-float-label>
+      <p-floatlabel variant="on" class="input-max-width">
+        <input id="comment" type="text" pInputText formControlName="comment">
+        <label for="comment">Comentarios</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Equipment Information-->
+  <div class="container">
+    <h2 class="subtitle">Información del Equipo</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <input id="equipment" pInputText type="text" formControlName="equipment">
+        <label for="equipment">Equipo</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="model" pInputText type="text" formControlName="model">
+        <label for="model">Modelo</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-select id="brand" inputId="brand" formControlName="brand"
+                  [options]="brandOptions" optionLabel="label" optionValue="value"/>
+        <label for="brand">Marca</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="fabricSeries" pInputText type="text" formControlName="fabricSeries">
+        <label for="fabricSeries">Serie de Fábrica</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input id="sapCode" pInputText type="text" formControlName="sapCode">
+        <label for="sapCode">Código SAP</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Start Dates-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de inicio</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-date-picker id="requirement" formControlName="requirement" dateFormat="dd/mm/yy"/>
+        <label for="requirement">Fecha de Requerimiento</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="arrival" formControlName="arrival" dateFormat="dd/mm/yy"/>
+        <label for="arrival">Fecha de Llegada</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="woCreation" formControlName="woCreation" dateFormat="dd/mm/yy"/>
+        <label for="woCreation">Creación de WO</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="firstLabor" formControlName="firstLabor" dateFormat="dd/mm/yy"/>
+        <label for="firstLabor">First Labor</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Evaluation Dates-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de Evaluación</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-date-picker id="evaluationPlanStart" formControlName="evaluationPlanStart" dateFormat="dd/mm/yy"/>
+        <label for="evaluationPlanStart">Inicio Planeado</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="evaluationRealStart" formControlName="evaluationRealStart" dateFormat="dd/mm/yy"/>
+        <label for="evaluationRealStart">Inicio Real</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="evaluationPlanEnd" formControlName="evaluationPlanEnd" dateFormat="dd/mm/yy"/>
+        <label for="evaluationPlanEnd">Fin Planeado</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="evaluationRealEnd" formControlName="evaluationRealEnd" dateFormat="dd/mm/yy"/>
+        <label for="evaluationRealEnd">Fin Real</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Budget Dates-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de Presupuesto</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-date-picker id="sendingDate" formControlName="sendingDate" dateFormat="dd/mm/yy"/>
+        <label for="sendingDate">Fecha de Envío</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="receptionDate" formControlName="sendingDate" dateFormat="dd/mm/yy"/>
+        <label for="receptionDate">Aprobación / Rechazo de Presupuesto</label>
+      </p-floatlabel>
+      <p-float-label variant="on">
+        <p-select id="budgetState" inputId="budgetState" formControlName="budgetState"
+                  [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
+        <label for="budgetState">Estado del Presupuesto</label>
+      </p-float-label>
+    </div>
+  </div>
+  <!--Provider Dates-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de Proveedor</h2>
+    <div class="form-container">
+      <p-float-label variant="on">
+        <p-select id="providerState" inputId="providerState" formControlName="providerState"
+                  [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
+        <label for="providerState">Estado del Proveedor</label>
+      </p-float-label>
+      <p-floatlabel variant="on">
+        <p-date-picker id="providerPlanStart" formControlName="providerPlanStart" dateFormat="dd/mm/yy"/>
+        <label for="providerPlanStart">Fecha Planeada de Inicio</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="providerRealStart" formControlName="providerRealStart" dateFormat="dd/mm/yy"/>
+        <label for="providerRealStart">Fecha Real de Inicio</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="providerPlanEnd" formControlName="providerPlanEnd" dateFormat="dd/mm/yy"/>
+        <label for="providerPlanEnd">Fecha Planeada de Fin</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="providerRealEnd" formControlName="providerRealEnd" dateFormat="dd/mm/yy"/>
+        <label for="providerRealEnd">Fecha Real de Fin</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Part Date-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de Repuestos</h2>
+    <div class="form-container">
+      <p-float-label variant="on">
+        <p-select id="partState" inputId="partState" formControlName="partState"
+                  [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
+        <label for="partState">Estado de los Repuestos</label>
+      </p-float-label>
+      <p-floatlabel variant="on">
+        <p-date-picker id="orderDate" formControlName="orderDate" dateFormat="dd/mm/yy"/>
+        <label for="orderDate">Fecha de Pedido de Repuestos</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="partPlanArrival" formControlName="partPlanArrival" dateFormat="dd/mm/yy"/>
+        <label for="partPlanArrival">Fecha de Planeada de Llegada</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="partRealArrival" formControlName="partRealArrival" dateFormat="dd/mm/yy"/>
+        <label for="partRealArrival">Fecha de Real de Llegada</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Repair Date-->
+  <div class="container">
+    <h2 class="subtitle">Fechas de Reparación</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-date-picker id="repairPlanStart" formControlName="repairPlanStart" dateFormat="dd/mm/yy"/>
+        <label for="repairPlanStart">Fecha Planeada de Inicio</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="repairRealStart" formControlName="repairRealStart" dateFormat="dd/mm/yy"/>
+        <label for="repairRealStart">Fecha Real de Inicio</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="repairPlanEnd" formControlName="repairPlanEnd" dateFormat="dd/mm/yy"/>
+        <label for="repairPlanEnd">Fecha Planeada de Fin</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="repairRealEnd" formControlName="repairRealEnd" dateFormat="dd/mm/yy"/>
+        <label for="repairRealEnd">Fecha Real de Fin</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--End Date-->
+  <div class="container">
+    <h2 class="subtitle">Fechas Finales</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <p-date-picker id="lastLabor" formControlName="lastLabor" dateFormat="dd/mm/yy"/>
+        <label for="lastLabor">Last Labor</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="realEndDate" formControlName="realEndDate" dateFormat="dd/mm/yy"/>
+        <label for="realEndDate">Fecha de Término Real</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="closingDate" formControlName="closingDate" dateFormat="dd/mm/yy"/>
+        <label for="closingDate">Fecha de Cierre</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="billingDate" formControlName="billingDate" dateFormat="dd/mm/yy"/>
+        <label for="billingDate">Fecha de Facturación</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="reportSendingDate" formControlName="reportSendingDate" dateFormat="dd/mm/yy"/>
+        <label for="reportSendingDate">Fecha de Envío de Reporte</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-date-picker id="nbd" formControlName="nbd" dateFormat="dd/mm/yy"/>
+        <label for="nbd">NBD</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on" class="input-max-width">
+        <input id="nbdChangingDateReason" type="text" pInputText formControlName="nbdChangingDateReason">
+        <label for="nbdChangingDateReason">Motivo de Cambio del NBD</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Compliance-->
+  <div class="container">
+    <h2 class="subtitle">Cumplimiento</h2>
+    <div class="form-container">
+      <p-floatlabel variant="on">
+        <input id="compliance" pInputText type="text" formControlName="compliance">
+        <label for="compliance">¿Cumple?</label>
+      </p-floatlabel>
+      <p-float-label variant="on">
+        <p-select id="complianceMotive" inputId="complianceMotive" formControlName="complianceMotive"
+                  [options]="complianceMotiveOptions" optionLabel="label" optionValue="value"/>
+        <label for="complianceMotive">Motivo</label>
+      </p-float-label>
+      <p-floatlabel variant="on" class="input-max-width">
+        <input id="motiveDetails" pInputText type="text" formControlName="motiveDetails">
+        <label for="motiveDetails">Detalles de cumplimiento</label>
+      </p-floatlabel>
+    </div>
+  </div>
+  <!--Other-->
+  <div class="container">
+    <h2 class="subtitle">Otros</h2>
+    <div class="form-container">
+      <div style="display: flex; flex-direction: row; align-items: center; gap: 1rem">
+        <span>Emergencia</span>
+        <p-toggle-switch id="emergency" formControlName="emergency"/>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div style="display: flex; align-items: center; justify-content: center; padding: 1rem">
+      <p-button (click)="addWorkOrder()" size="large">Guardar</p-button>
+    </div>
+  </div>
+</form>
