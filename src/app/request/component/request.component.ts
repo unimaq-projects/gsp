@@ -48,7 +48,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
   noCodeApiService: NocodeapiService = new NocodeapiService();
   rowId: number | null = null;
-  // Detailed Information
+  //Detailed Information
   branchOptions: { label: string; value: string }[] = [];
   supervisorOptions: { label: string; value: string }[] = [];
   technicianOptions: { label: string; value: string }[] = [];
@@ -57,8 +57,8 @@ export class RequestComponent implements OnInit, OnDestroy {
   bayOptions: { label: string; value: string }[] = [];
   private branchSubscription?: Subscription;
   private technicianSubscription?: Subscription;
+  private complianceSubscription?: Subscription;
   private workOrderSubscription?: Subscription;
-
   private supervisorEntity: SupervisorEntity = new SupervisorEntity();
   private technicianEntity: TechnicianEntity = new TechnicianEntity();
 
@@ -82,6 +82,7 @@ export class RequestComponent implements OnInit, OnDestroy {
     this.loadDropdownOptions();
     this.subscribeToBranchChanges();
     this.subscribeToWorkOrderData();
+    this.subscribeToDateChanges();
   }
 
   ngOnDestroy(): void {
@@ -153,15 +154,13 @@ export class RequestComponent implements OnInit, OnDestroy {
       nbd: new FormControl(null),
       nbdChangingDateReason: new FormControl(''),
       // Compliance
-      compliance: new FormControl(''),
+      compliance: new FormControl({value: null, disabled: true}),
       complianceMotive: new FormControl(null),
       motiveDetails: new FormControl(''),
       // Other
       emergency: new FormControl('')
     });
   }
-
-
 
   loadDropdownOptions(): void {
     this.branchOptions = Object.values(BranchEnum).map((branch) => ({ label: branch, value: branch }));
@@ -203,6 +202,15 @@ export class RequestComponent implements OnInit, OnDestroy {
         this.populateForm(data);
         this.workorderDataSharingService.clearData();
       }
+    });
+  }
+
+  subscribeToDateChanges(): void {
+    this.requestForm.get('nbd')?.valueChanges.subscribe(nbdDate => {
+      this.checkCompliance();
+    });
+    this.requestForm.get('realEndDate')?.valueChanges.subscribe(realEndDate => {
+      this.checkCompliance();
     });
   }
 
@@ -293,6 +301,20 @@ export class RequestComponent implements OnInit, OnDestroy {
           value: technician,
         }));
       }
+    }
+  }
+
+  checkCompliance(): void {
+    const nbdDate = this.requestForm.get('nbd')?.value as Date;
+    const realEndDate = this.requestForm.get('realEndDate')?.value as Date;
+    if (nbdDate && realEndDate) {
+      if (nbdDate > realEndDate) {
+        this.requestForm.get('compliance')?.setValue('CUMPLE');
+      } else {
+        this.requestForm.get('compliance')?.setValue('NO CUMPLE');
+      }
+    } else {
+      this.requestForm.get('compliance')?.setValue('');
     }
   }
 

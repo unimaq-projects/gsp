@@ -1,0 +1,25 @@
+.subtitle{
+    font-style: italic;
+    color: slategray;
+    text-align: left;
+}
+
+header {
+    width:80%;
+    padding: 1rem 0 1rem 0;
+}
+
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.form-container {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 2rem;
+    grid-row-gap: 1rem;
+}
