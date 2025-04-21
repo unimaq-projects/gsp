@@ -21,6 +21,8 @@ import {ToggleSwitch} from 'primeng/toggleswitch';
 import {Button} from 'primeng/button';
 import { WorkorderDataSharingService } from '../services/workorder-data-sharing.service';
 import { WorkorderEntity } from '../entities/workorder.entity';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-request',
@@ -32,16 +34,17 @@ import { WorkorderEntity } from '../entities/workorder.entity';
     Select,
     DatePicker,
     ToggleSwitch,
+    ToastModule,
     Button
   ],
   templateUrl: './request.component.html',
   standalone: true,
-  styleUrl: './request.component.css'
+  styleUrl: './request.component.css',
+  providers: [MessageService]
 })
 export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
   noCodeApiService: NocodeapiService = new NocodeapiService();
-  response: string = "";
 
   // Detailed Information
   branchOptions: { label: string; value: string }[] = [];
@@ -52,7 +55,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   bayOptions: { label: string; value: string }[] = [];
   private branchSubscription?: Subscription;
   private technicianSubscription?: Subscription;
-  private workOrderSubscription?: Subscription; // Nueva suscripción
+  private workOrderSubscription?: Subscription;
 
   private supervisorEntity: SupervisorEntity = new SupervisorEntity();
   private technicianEntity: TechnicianEntity = new TechnicianEntity();
@@ -66,7 +69,11 @@ export class RequestComponent implements OnInit, OnDestroy {
   // Compliance
   complianceMotiveOptions: { label: string; value: string }[] = [];
 
-  constructor(private fb: FormBuilder, private workorderDataSharingService: WorkorderDataSharingService) {}
+  constructor(
+    private fb: FormBuilder, 
+    private workorderDataSharingService: WorkorderDataSharingService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -78,7 +85,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.branchSubscription) this.branchSubscription.unsubscribe();
     if (this.technicianSubscription) this.technicianSubscription.unsubscribe();
-    if (this.workOrderSubscription) this.workOrderSubscription.unsubscribe(); // Desuscribirse
+    if (this.workOrderSubscription) this.workOrderSubscription.unsubscribe();
   }
 
   initForm(): void {
@@ -148,7 +155,8 @@ export class RequestComponent implements OnInit, OnDestroy {
       complianceMotive: new FormControl(null),
       motiveDetails: new FormControl(''),
       // Other
-      emergency: new FormControl('')
+      emergency: new FormControl(''),
+      rowId: new FormControl()
     });
   }
 
@@ -197,6 +205,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   populateForm(workOrder: WorkorderEntity): void {
     this.requestForm.patchValue({
+      rowId: workOrder.rowId,
       request: workOrder.request,
       wo: workOrder.wo,
       io: workOrder.io,
@@ -282,72 +291,89 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   async addWorkOrder() {
     const formData = this.requestForm.value;
-    const dataToSend = [
-      formData.request,
-      formData.wo,
-      formData.io,
-      formData.quote,
-      formData.branch,
-      formData.supervisor,
-      formData.attentionType,
-      formData.description,
-      formData.bp,
-      formData.client,
-      formData.equipment,
-      formData.model,
-      formData.brand,
-      formData.fabricSeries,
-      formData.sapCode,
-      formData.state,
-      formData.comment,
-      DateFormatterEntity(formData.requirement),
-      DateFormatterEntity(formData.arrival),
-      DateFormatterEntity(formData.woCreation),
-      DateFormatterEntity(formData.firstLabor),
-      DateFormatterEntity(formData.evaluationPlanStart),
-      DateFormatterEntity(formData.evaluationRealStart),
-      DateFormatterEntity(formData.evaluationPlanEnd),
-      DateFormatterEntity(formData.evaluationRealEnd),
-      DateFormatterEntity(formData.sendingDate),
-      DateFormatterEntity(formData.receptionDate),
-      formData.budgetState,
-      DateFormatterEntity(formData.providerPlanStart),
-      DateFormatterEntity(formData.providerRealStart),
-      DateFormatterEntity(formData.providerPlanEnd),
-      DateFormatterEntity(formData.providerRealEnd),
-      formData.providerState,
-      formData.partState,
-      DateFormatterEntity(formData.orderDate),
-      DateFormatterEntity(formData.partPlanArrival),
-      DateFormatterEntity(formData.partRealArrival),
-      DateFormatterEntity(formData.repairPlanStart),
-      DateFormatterEntity(formData.repairRealStart),
-      DateFormatterEntity(formData.repairPlanEnd),
-      DateFormatterEntity(formData.repairRealEnd),
-      DateFormatterEntity(formData.nbd),
-      formData.nbdChangingDateReason,
-      DateFormatterEntity(formData.lastLabor),
-      DateFormatterEntity(formData.realEndDate),
-      formData.compliance,
-      formData.complianceMotive,
-      formData.motiveDetails,
-      DateFormatterEntity(formData.reportSendingDate),
-      DateFormatterEntity(formData.closingDate),
-      DateFormatterEntity(formData.billingDate),
-      formData.emergency,
-      formData.technician,
-      formData.bay
-    ];
-    (await this.noCodeApiService.addData([dataToSend])).subscribe({
-      next: () => {
-        this.response = 'Fila agregada correctamente';
-        alert(this.response);
-      },
-      error: (err) => {
-        this.response = 'Error al agregar la fila.';
-        alert(this.response);
+    let dataToSend: any = {};
+    if (formData.rowId != null) {
+      dataToSend.row_id = formData.rowId;
+    }
+    dataToSend.Request = formData.request;
+    dataToSend.WO = formData.wo;
+    dataToSend.IO = formData.io;
+    dataToSend.Quote = formData.quote;
+    dataToSend.Sucursal = formData.branch;
+    dataToSend.Supervisor = formData.supervisor;
+    dataToSend.Tipo_De_Atencion = formData.attentionType;
+    dataToSend.Descripcion = formData.description;
+    dataToSend.BP = formData.bp;
+    dataToSend.Cliente = formData.client;
+    dataToSend.Equipo = formData.equipment;
+    dataToSend.Modelo = formData.model;
+    dataToSend.Marca = formData.brand;
+    dataToSend.Serie_Fabrica = formData.fabricSeries;
+    dataToSend.Codigo_SAP = formData.sapCode;
+    dataToSend.Estado = formData.state;
+    dataToSend.Comentarios = formData.comment;
+    dataToSend.F_Requerimiento = formData.requirement ? DateFormatterEntity(formData.requirement) : null;
+    dataToSend.F_Llegada = formData.arrival ? DateFormatterEntity(formData.arrival) : null;
+    dataToSend.F_Creacion_WO = formData.woCreation ? DateFormatterEntity(formData.woCreation) : null;
+    dataToSend.First_Labor = formData.firstLabor ? DateFormatterEntity(formData.firstLabor) : null;
+    dataToSend.F_Inicio_Plan_Evaluacion = formData.evaluationPlanStart ? DateFormatterEntity(formData.evaluationPlanStart) : null;
+    dataToSend.F_Inicio_Real_Evaluacion = formData.evaluationRealStart ? DateFormatterEntity(formData.evaluationRealStart) : null;
+    dataToSend.F_Fin_Plan_Evaluacion = formData.evaluationPlanEnd ? DateFormatterEntity(formData.evaluationPlanEnd) : null;
+    dataToSend.F_Fin_Real_Evaluacion = formData.evaluationRealEnd ? DateFormatterEntity(formData.evaluationRealEnd) : null;
+    dataToSend.F_Envio_Ppto = formData.sendingDate ? DateFormatterEntity(formData.sendingDate) : null;
+    dataToSend.F_Aprobacion_Rechazo_Ppto = formData.receptionDate ? DateFormatterEntity(formData.receptionDate) : null;
+    dataToSend.Estado_Ppto = formData.budgetState;
+    dataToSend.F_Inicio_Plan_Prov = formData.providerPlanStart ? DateFormatterEntity(formData.providerPlanStart) : null;
+    dataToSend.F_Inicio_Real_Prov = formData.providerRealStart ? DateFormatterEntity(formData.providerRealStart) : null;
+    dataToSend.F_Fin_Plan_Prov = formData.providerPlanEnd ? DateFormatterEntity(formData.providerPlanEnd) : null;
+    dataToSend.F_Fin_Real_Prov = formData.providerRealEnd ? DateFormatterEntity(formData.providerRealEnd) : null;
+    dataToSend.Estado_Rpts = formData.partState;
+    dataToSend.F_Pedido_Rpts = formData.orderDate ? DateFormatterEntity(formData.orderDate) : null;
+    dataToSend.F_Plan_Llegada_Rpts = formData.partPlanArrival ? DateFormatterEntity(formData.partPlanArrival) : null;
+    dataToSend.F_Real_Llegada_De_Rpts = formData.partRealArrival ? DateFormatterEntity(formData.partRealArrival) : null;
+    dataToSend.F_Inicio_Plan_Reparacion = formData.repairPlanStart ? DateFormatterEntity(formData.repairPlanStart) : null;
+    dataToSend.F_Inicio_Real_Reparacion = formData.repairRealStart ? DateFormatterEntity(formData.repairRealStart) : null;
+    dataToSend.F_Fin_Plan_Reparacion = formData.repairPlanEnd ? DateFormatterEntity(formData.repairPlanEnd) : null;
+    dataToSend.F_Fin_Real_Reparacion = formData.repairRealEnd ? DateFormatterEntity(formData.repairRealEnd) : null;
+    dataToSend.NBD = formData.nbd ? DateFormatterEntity(formData.nbd) : null;
+    dataToSend.Motivo_Cambio_Por_Cliente = formData.nbdChangingDateReason;
+    dataToSend.Last_Labor = formData.lastLabor ? DateFormatterEntity(formData.lastLabor) : null;
+    dataToSend.F_Real_De_Termino = formData.realEndDate ? DateFormatterEntity(formData.realEndDate) : null;
+    dataToSend.Cumplimiento = formData.compliance;
+    dataToSend.Motivo = formData.complianceMotive;
+    dataToSend.Detalle_De_Motivo = formData.motiveDetails;
+    dataToSend.F_Envio_Informe = formData.reportSendingDate ? DateFormatterEntity(formData.reportSendingDate) : null;
+    dataToSend.F_Cierre = formData.closingDate ? DateFormatterEntity(formData.closingDate) : null;
+    dataToSend.F_Facturacion = formData.billingDate ? DateFormatterEntity(formData.billingDate) : null;
+    dataToSend.Emergencia = formData.emergency;
+    dataToSend.Tecnico = formData.technician;
+    dataToSend.Bahia = formData.bay;
+  
+    console.log(formData.rowId);
+    if (formData.rowId != null) {
+      try {
+        console.log(dataToSend);
+        await this.noCodeApiService.updateRow(dataToSend);
+        this.messageService.add({ severity: 'success', summary: 'Info', detail: 'Fila actualizada satisfactoriamente', life: 3000 });
+      } catch (err) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al actualizar fila', life: 3000 });
         console.error(err);
       }
-    });
+    } else {
+      try {
+        (await this.noCodeApiService.addData([dataToSend])).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Info', detail: 'Fila agregada satisfactoriamente', life: 3000 });
+          },
+          error: (err) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al agregar fila', life: 3000 });
+            console.error(err);
+          }
+        });
+      } catch (err) {
+        console.error("Error al llamar a addData:", err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al agregar fila', life: 3000 });
+      }
+    }
   }
 }

@@ -53,6 +53,7 @@ export class WorkorderEntity {
   complianceMotive: any | null = null;
   motiveDetails: string | null = null;
   emergency: string | null = null;
+  rowId: number | null = null;
 
   constructor(data?: Partial<WorkorderEntity>) {
     if (data) {
