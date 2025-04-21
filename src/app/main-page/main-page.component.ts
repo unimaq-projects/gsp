@@ -25,9 +25,8 @@ export class MainPageComponent {
   request: number = 0;
   nocodeapiService: NocodeapiService = new NocodeapiService();
   constructor(private router: Router) {}
-  goToWorkOrder(search?:boolean):Promise<WorkorderEntity | undefined> {
+  async goToWorkOrder(search?:boolean):Promise<WorkorderEntity | undefined> {
     if(!search) this.router.navigate(['work-order']);
-    console.log(this.nocodeapiService.getRequestById(this.request));
-    return this.nocodeapiService.getRequestById(this.request);
+    return await this.nocodeapiService.getRequestById(this.request);
   }
 }
