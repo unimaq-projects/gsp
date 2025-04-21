@@ -45,7 +45,7 @@ import { MessageService } from 'primeng/api';
 export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
   noCodeApiService: NocodeapiService = new NocodeapiService();
-
+  rowId: number | null = null;
   // Detailed Information
   branchOptions: { label: string; value: string }[] = [];
   supervisorOptions: { label: string; value: string }[] = [];
@@ -91,12 +91,12 @@ export class RequestComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.requestForm = this.fb.group({
       // Basic Information
-      request: new FormControl(),
-      wo: new FormControl(),
-      io: new FormControl(),
-      quote: new FormControl(),
-      bp: new FormControl(''),
-      client: new FormControl(''),
+      request: new FormControl({value: null, disabled: false}),
+      wo: new FormControl({value: null, disabled: false}),
+      io: new FormControl({value: null, disabled: false}),
+      quote: new FormControl({value: null, disabled: false}),
+      bp: new FormControl(),
+      client: new FormControl(),
       description: new FormControl(''),
       // Detailed Information
       branch: new FormControl(null),
@@ -155,10 +155,11 @@ export class RequestComponent implements OnInit, OnDestroy {
       complianceMotive: new FormControl(null),
       motiveDetails: new FormControl(''),
       // Other
-      emergency: new FormControl(''),
-      rowId: new FormControl()
+      emergency: new FormControl('')
     });
   }
+
+
 
   loadDropdownOptions(): void {
     this.branchOptions = Object.values(BranchEnum).map((branch) => ({ label: branch, value: branch }));
@@ -204,8 +205,12 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   populateForm(workOrder: WorkorderEntity): void {
+    this.requestForm.get('request')?.disable();
+    this.requestForm.get('wo')?.disable();
+    this.requestForm.get('io')?.disable();
+    this.requestForm.get('quote')?.disable();
+    this.rowId = workOrder.rowId;
     this.requestForm.patchValue({
-      rowId: workOrder.rowId,
       request: workOrder.request,
       wo: workOrder.wo,
       io: workOrder.io,
@@ -292,8 +297,8 @@ export class RequestComponent implements OnInit, OnDestroy {
   async addWorkOrder() {
     const formData = this.requestForm.value;
     let dataToSend: any = {};
-    if (formData.rowId != null) {
-      dataToSend.row_id = formData.rowId;
+    if (this.rowId != null) {
+      dataToSend.row_id = this.rowId;
     }
     dataToSend.Request = formData.request;
     dataToSend.WO = formData.wo;
@@ -348,11 +353,8 @@ export class RequestComponent implements OnInit, OnDestroy {
     dataToSend.Emergencia = formData.emergency;
     dataToSend.Tecnico = formData.technician;
     dataToSend.Bahia = formData.bay;
-  
-    console.log(formData.rowId);
-    if (formData.rowId != null) {
+    if (this.rowId != null) {
       try {
-        console.log(dataToSend);
         await this.noCodeApiService.updateRow(dataToSend);
         this.messageService.add({ severity: 'success', summary: 'Info', detail: 'Fila actualizada satisfactoriamente', life: 3000 });
       } catch (err) {

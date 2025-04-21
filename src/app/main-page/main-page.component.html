@@ -7,7 +7,7 @@
     <h1>¿Qué quieres hacer?</h1>
     <div class="search-row">
       <p-floatlabel variant="on">
-        <input id="createNewRequest" pInputText required [(ngModel)]="request" >
+        <input id="createNewRequest" pInputText required [(ngModel)]="request">
         <label for="createNewRequest">Buscar Request</label>
       </p-floatlabel>
       <p-button (onClick)="goToWorkOrder(true)" [disabled]="request == 0">Buscar</p-button>
