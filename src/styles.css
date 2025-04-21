@@ -36,7 +36,7 @@ body{
   grid-row-gap: 1rem;
 }
 
-input, p-select, p-date-picker>span {
+input, p-select, p-date-picker>span, p-inputnumber {
   width: 100%;
 }
 

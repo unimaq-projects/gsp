@@ -23,6 +23,7 @@ import { WorkorderDataSharingService } from '../services/workorder-data-sharing.
 import { WorkorderEntity } from '../entities/workorder.entity';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-request',
@@ -35,7 +36,8 @@ import { MessageService } from 'primeng/api';
     DatePicker,
     ToggleSwitch,
     ToastModule,
-    Button
+    Button,
+    InputNumberModule
   ],
   templateUrl: './request.component.html',
   standalone: true,
