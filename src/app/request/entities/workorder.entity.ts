@@ -50,7 +50,7 @@ export class WorkorderEntity {
   nbd: string | null = null;
   nbdChangingDateReason: string | null = null;
   compliance: string | null = null;
-  motive: any | null = null;
+  complianceMotive: any | null = null;
   motiveDetails: string | null = null;
   emergency: string | null = null;
 

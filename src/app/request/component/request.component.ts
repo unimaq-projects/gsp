@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {NavbarComponent} from '../../navbar/navbar.component';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -16,9 +16,11 @@ import {DateFormatterEntity} from '../../shared/entities/date-formatter.entity';
 import {BrandEnum} from '../enums/brand.enum';
 import {DatePicker} from 'primeng/datepicker';
 import {BudgetStateEnum} from '../enums/budget-state.enum';
-import {ComplianceMotiveEnum} from '../enums/compliance-motive.enum';
+import { ComplianceMotiveEnum } from '../enums/compliance-motive.enum';
 import {ToggleSwitch} from 'primeng/toggleswitch';
 import {Button} from 'primeng/button';
+import { WorkorderDataSharingService } from '../services/workorder-data-sharing.service';
+import { WorkorderEntity } from '../entities/workorder.entity';
 
 @Component({
   selector: 'app-request',
@@ -36,38 +38,52 @@ import {Button} from 'primeng/button';
   standalone: true,
   styleUrl: './request.component.css'
 })
-export class RequestComponent implements OnInit{
+export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
-  noCodeApiService :NocodeapiService = new NocodeapiService();
+  noCodeApiService: NocodeapiService = new NocodeapiService();
   response: string = "";
 
-  //Detailed Information
+  // Detailed Information
   branchOptions: { label: string; value: string }[] = [];
   supervisorOptions: { label: string; value: string }[] = [];
   technicianOptions: { label: string; value: string }[] = [];
   attentionTypeOptions: { label: string; value: string }[] = [];
-  requestStateOptions: { label: string, value: string }[] = [];
-  bayOptions: { label: string, value: string }[] = [];
+  requestStateOptions: { label: string; value: string }[] = [];
+  bayOptions: { label: string; value: string }[] = [];
   private branchSubscription?: Subscription;
   private technicianSubscription?: Subscription;
+  private workOrderSubscription?: Subscription; // Nueva suscripción
 
-  private supervisorEntity :SupervisorEntity = new SupervisorEntity();
-  private technicianEntity :TechnicianEntity = new TechnicianEntity();
+  private supervisorEntity: SupervisorEntity = new SupervisorEntity();
+  private technicianEntity: TechnicianEntity = new TechnicianEntity();
 
-  //Equipment Information
-  brandOptions: { label: string, value: string }[] = [];
+  // Equipment Information
+  brandOptions: { label: string; value: string }[] = [];
 
-  //Budget Dates
+  // Budget Dates
   defaultStateOptions: { label: string; value: string }[] = [];
 
-  //Compliance
-  complianceMotiveOptions: { label: string, value: string }[] = [];
+  // Compliance
+  complianceMotiveOptions: { label: string; value: string }[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private workorderDataSharingService: WorkorderDataSharingService) {}
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadDropdownOptions();
+    this.subscribeToBranchChanges();
+    this.subscribeToWorkOrderData();
+  }
+
+  ngOnDestroy(): void {
+    if (this.branchSubscription) this.branchSubscription.unsubscribe();
+    if (this.technicianSubscription) this.technicianSubscription.unsubscribe();
+    if (this.workOrderSubscription) this.workOrderSubscription.unsubscribe(); // Desuscribirse
+  }
+
+  initForm(): void {
     this.requestForm = this.fb.group({
-      //Basic Information
+      // Basic Information
       request: new FormControl(),
       wo: new FormControl(),
       io: new FormControl(),
@@ -75,7 +91,7 @@ export class RequestComponent implements OnInit{
       bp: new FormControl(''),
       client: new FormControl(''),
       description: new FormControl(''),
-      //Detailed Information
+      // Detailed Information
       branch: new FormControl(null),
       supervisor: new FormControl(null),
       technician: new FormControl(null),
@@ -83,43 +99,43 @@ export class RequestComponent implements OnInit{
       state: new FormControl(null),
       bay: new FormControl(null),
       comment: new FormControl(''),
-      //Equipment Information
+      // Equipment Information
       equipment: new FormControl(''),
       model: new FormControl(''),
       brand: new FormControl(null),
       fabricSeries: new FormControl(''),
       sapCode: new FormControl(''),
-      //Start Dates
+      // Start Dates
       requirement: new FormControl(null),
       arrival: new FormControl(null),
       woCreation: new FormControl(null),
       firstLabor: new FormControl(null),
-      //Evaluation Dates
+      // Evaluation Dates
       evaluationPlanStart: new FormControl(null),
       evaluationRealStart: new FormControl(null),
       evaluationPlanEnd: new FormControl(null),
       evaluationRealEnd: new FormControl(null),
-      //Budget Dates
+      // Budget Dates
       sendingDate: new FormControl(null),
       receptionDate: new FormControl(null),
       budgetState: new FormControl(null),
-      //Provider Dates
+      // Provider Dates
       providerPlanStart: new FormControl(null),
       providerRealStart: new FormControl(null),
       providerPlanEnd: new FormControl(null),
       providerRealEnd: new FormControl(null),
       providerState: new FormControl(null),
-      //Part Dates
+      // Part Dates
       partState: new FormControl(null),
       orderDate: new FormControl(null),
       partPlanArrival: new FormControl(null),
       partRealArrival: new FormControl(null),
-      //Repair Dates
+      // Repair Dates
       repairPlanStart: new FormControl(null),
       repairRealStart: new FormControl(null),
       repairPlanEnd: new FormControl(null),
       repairRealEnd: new FormControl(null),
-      //End Dates
+      // End Dates
       lastLabor: new FormControl(null),
       realEndDate: new FormControl(null),
       closingDate: new FormControl(null),
@@ -127,33 +143,26 @@ export class RequestComponent implements OnInit{
       reportSendingDate: new FormControl(null),
       nbd: new FormControl(null),
       nbdChangingDateReason: new FormControl(''),
-      //Compliance
+      // Compliance
       compliance: new FormControl(''),
-      motive: new FormControl(null),
+      complianceMotive: new FormControl(null),
       motiveDetails: new FormControl(''),
-      //Other
+      // Other
       emergency: new FormControl('')
     });
+  }
 
-    this.branchOptions = Object.values(BranchEnum).map((branch) => ({
-      label: branch,
-      value: branch,
-    }));
+  loadDropdownOptions(): void {
+    this.branchOptions = Object.values(BranchEnum).map((branch) => ({ label: branch, value: branch }));
+    this.attentionTypeOptions = Object.values(AttentionTypeEnum).map((attentionType) => ({ label: attentionType, value: attentionType }));
+    this.requestStateOptions = Object.values(StateEnum).map((state) => ({ label: state, value: state }));
+    this.bayOptions = Object.values(BayEnum).map((bay) => ({ label: bay, value: bay }));
+    this.brandOptions = Object.values(BrandEnum).map((brand) => ({ label: brand, value: brand }));
+    this.defaultStateOptions = Object.values(BudgetStateEnum).map((budgetState) => ({ label: budgetState, value: budgetState }));
+    this.complianceMotiveOptions = Object.values(ComplianceMotiveEnum).map((complianceMotive) => ({ label: complianceMotive, value: complianceMotive }));
+  }
 
-    this.attentionTypeOptions = Object.values(AttentionTypeEnum).map((attentionType) => ({
-      label: attentionType,
-      value: attentionType
-    }));
-
-    this.requestStateOptions = Object.values(StateEnum).map((state) => ({
-      label: state,
-      value: state
-    }));
-    this.bayOptions = Object.values(BayEnum).map((bay) => ({
-      label: bay,
-      value: bay
-    }));
-
+  subscribeToBranchChanges(): void {
     this.branchSubscription = this.requestForm
       .get('branch')
       ?.valueChanges.subscribe((selectedBranch: BranchEnum | null) => {
@@ -175,21 +184,74 @@ export class RequestComponent implements OnInit{
       this.updateSupervisors(initialBranch);
       this.updateTechnicians(initialBranch);
     }
+  }
 
-    this.brandOptions = Object.values(BrandEnum).map((brand) => ({
-      label: brand,
-      value: brand
-    }));
+  subscribeToWorkOrderData(): void {
+    this.workOrderSubscription = this.workorderDataSharingService.currentWorkOrderData.subscribe(data => {
+      if (data) {
+        this.populateForm(data);
+        this.workorderDataSharingService.clearData();
+      }
+    });
+  }
 
-    this.defaultStateOptions = Object.values(BudgetStateEnum).map((budgetState) => ({
-      label: budgetState,
-      value: budgetState
-    }));
-
-    this.complianceMotiveOptions = Object.values(ComplianceMotiveEnum).map((motive) => ({
-      label: motive,
-      value: motive
-    }));
+  populateForm(workOrder: WorkorderEntity): void {
+    this.requestForm.patchValue({
+      request: workOrder.request,
+      wo: workOrder.wo,
+      io: workOrder.io,
+      quote: workOrder.quote,
+      bp: workOrder.bp,
+      client: workOrder.client,
+      description: workOrder.description,
+      branch: workOrder.branch,
+      supervisor: workOrder.supervisor,
+      technician: workOrder.technician,
+      attentionType: workOrder.attentionType,
+      state: workOrder.state,
+      bay: workOrder.bay,
+      comment: workOrder.comment,
+      equipment: workOrder.equipment,
+      model: workOrder.model,
+      brand: workOrder.brand,
+      fabricSeries: workOrder.fabricSeries,
+      sapCode: workOrder.sapCode,
+      requirement: workOrder.requirement ? new Date(workOrder.requirement) : null,
+      arrival: workOrder.arrival ? new Date(workOrder.arrival) : null,
+      woCreation: workOrder.woCreation ? new Date(workOrder.woCreation) : null,
+      firstLabor: workOrder.firstLabor ? new Date(workOrder.firstLabor) : null,
+      evaluationPlanStart: workOrder.evaluationPlanStart ? new Date(workOrder.evaluationPlanStart) : null,
+      evaluationRealStart: workOrder.evaluationRealStart ? new Date(workOrder.evaluationRealStart) : null,
+      evaluationPlanEnd: workOrder.evaluationPlanEnd ? new Date(workOrder.evaluationPlanEnd) : null,
+      evaluationRealEnd: workOrder.evaluationRealEnd ? new Date(workOrder.evaluationRealEnd) : null,
+      sendingDate: workOrder.sendingDate ? new Date(workOrder.sendingDate) : null,
+      receptionDate: workOrder.receptionDate ? new Date(workOrder.receptionDate) : null,
+      budgetState: workOrder.budgetState,
+      providerPlanStart: workOrder.providerPlanStart ? new Date(workOrder.providerPlanStart) : null,
+      providerRealStart: workOrder.providerRealStart ? new Date(workOrder.providerRealStart) : null,
+      providerPlanEnd: workOrder.providerPlanEnd ? new Date(workOrder.providerPlanEnd) : null,
+      providerRealEnd: workOrder.providerRealEnd ? new Date(workOrder.providerRealEnd) : null,
+      providerState: workOrder.providerState,
+      partState: workOrder.partState,
+      orderDate: workOrder.orderDate ? new Date(workOrder.orderDate) : null,
+      partPlanArrival: workOrder.partPlanArrival ? new Date(workOrder.partPlanArrival) : null,
+      partRealArrival: workOrder.partRealArrival ? new Date(workOrder.partRealArrival) : null,
+      repairPlanStart: workOrder.repairPlanStart ? new Date(workOrder.repairPlanStart) : null,
+      repairRealStart: workOrder.repairRealStart ? new Date(workOrder.repairRealStart) : null,
+      repairPlanEnd: workOrder.repairPlanEnd ? new Date(workOrder.repairPlanEnd) : null,
+      repairRealEnd: workOrder.repairRealEnd ? new Date(workOrder.repairRealEnd) : null,
+      lastLabor: workOrder.lastLabor ? new Date(workOrder.lastLabor) : null,
+      realEndDate: workOrder.realEndDate ? new Date(workOrder.realEndDate) : null,
+      closingDate: workOrder.closingDate ? new Date(workOrder.closingDate) : null,
+      billingDate: workOrder.billingDate ? new Date(workOrder.billingDate) : null,
+      reportSendingDate: workOrder.reportSendingDate ? new Date(workOrder.reportSendingDate) : null,
+      nbd: workOrder.nbd ? new Date(workOrder.nbd) : null,
+      nbdChangingDateReason: workOrder.nbdChangingDateReason,
+      compliance: workOrder.compliance,
+      complianceMotive: workOrder.complianceMotive,
+      motiveDetails: workOrder.motiveDetails,
+      emergency: workOrder.emergency === 'TRUE'
+    });
   }
 
   updateSupervisors(branch: BranchEnum | null): void {
@@ -267,7 +329,7 @@ export class RequestComponent implements OnInit{
       DateFormatterEntity(formData.lastLabor),
       DateFormatterEntity(formData.realEndDate),
       formData.compliance,
-      formData.motive,
+      formData.complianceMotive,
       formData.motiveDetails,
       DateFormatterEntity(formData.reportSendingDate),
       DateFormatterEntity(formData.closingDate),
