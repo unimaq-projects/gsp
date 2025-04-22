@@ -24,6 +24,7 @@ import { WorkorderEntity } from '../entities/workorder.entity';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { FooterComponent } from "../../footer/footer.component";
 
 @Component({
   selector: 'app-request',
@@ -37,8 +38,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ToggleSwitch,
     ToastModule,
     Button,
-    InputNumberModule
-  ],
+    InputNumberModule,
+    FooterComponent
+],
   templateUrl: './request.component.html',
   standalone: true,
   styleUrl: './request.component.css',
