@@ -8,7 +8,7 @@ import { DateFormatterEntity } from '../shared/entities/date-formatter.entity';
   providedIn: 'root'
 })
 export class NocodeapiService {
-  private baseUrl = 'https://v1.nocodeapi.com/snmarcelo/google_sheets/xEhRBKSjzPsOJPRv';
+  private baseUrl = '/.netlify/functions/proxy-nocodeapi';
   private tabId = 'tabId=gsp';
   private http = inject(HttpClient);
   private headers = {
