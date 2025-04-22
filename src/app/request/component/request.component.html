@@ -1,4 +1,4 @@
-<navbar-component/>
+<navbar-component />
 <form [formGroup]="requestForm">
   <p-toast/>
   <!--Basic Information-->
@@ -8,32 +8,32 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-inputnumber id="request" formControlName="request" inputId="integeronly"/>
-        <label for="request">Request</label>
+        <p-inputnumber formControlName="request" inputId="withoutgrouping" [useGrouping]="false"/>
+        <label>Request</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-inputnumber id="wo" formControlName="wo" inputId="integeronly"/>
-        <label for="wo">Work Order</label>
+        <p-inputnumber formControlName="wo" inputId="withoutgrouping" [useGrouping]="false"/>
+        <label>Work Order</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-inputnumber id="io" formControlName="io" inputId="integeronly"/>
-        <label for="io">Internal Order</label>
+        <p-inputnumber formControlName="io" inputId="withoutgrouping" [useGrouping]="false"/>
+        <label>Internal Order</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-inputnumber id="quote" formControlName="quote" inputId="integeronly"/>
-        <label for="quote">Quote</label>
+        <p-inputnumber formControlName="quote" inputId="withoutgrouping" [useGrouping]="false"/>
+        <label>Quote</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-inputnumber id="bp" formControlName="bp" inputId="integeronly"/>
-        <label for="bp">BP</label>
+        <p-inputnumber formControlName="bp" inputId="withoutgrouping" [useGrouping]="false"/>
+        <label>BP</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <input id="client" type="text" pInputText formControlName="client">
-        <label for="client">Cliente</label>
+        <input type="text" pInputText formControlName="client">
+        <label>Cliente</label>
       </p-floatlabel>
       <p-floatlabel variant="on" class="input-max-width">
-        <input id="description" type="text" pInputText formControlName="description">
-        <label for="description">Descripción del Request</label>
+        <input type="text" pInputText formControlName="description">
+        <label>Descripción del Request</label>
       </p-floatlabel>
     </div>
   </div>
@@ -44,38 +44,38 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-select id="branch" inputId="branch" formControlName="branch"
+        <p-select inputId="branch" formControlName="branch"
                   [options]="branchOptions" optionLabel="label" optionValue="value"/>
-        <label for="branch">Sucursal</label>
+        <label>Sucursal</label>
       </p-floatlabel>
       <p-float-label variant="on">
-        <p-select id="supervisor" inputId="supervisor" formControlName="supervisor"
+        <p-select inputId="supervisor" formControlName="supervisor"
                   [options]="supervisorOptions" optionLabel="label" optionValue="value"/>
-        <label for="supervisor">Supervisor</label>
+        <label>Supervisor</label>
       </p-float-label>
       <p-float-label variant="on">
-        <p-select id="technician" inputId="technician" formControlName="technician"
+        <p-select inputId="technician" formControlName="technician"
                   [options]="technicianOptions" optionLabel="label" optionValue="value"/>
-        <label for="technician">Técnico</label>
+        <label>Técnico</label>
       </p-float-label>
       <p-float-label variant="on">
-        <p-select id="attentionType" inputId="attentionType" formControlName="attentionType"
+        <p-select inputId="attentionType" formControlName="attentionType"
                   [options]="attentionTypeOptions" optionLabel="label" optionValue="value"/>
-        <label for="attentionType">Tipo de Atención</label>
+        <label>Tipo de Atención</label>
       </p-float-label>
       <p-float-label variant="on">
-        <p-select id="state" inputId="state" formControlName="state"
+        <p-select inputId="state" formControlName="state"
                   [options]="requestStateOptions" optionLabel="label" optionValue="value"/>
-        <label for="state">Estado</label>
+        <label >Estado</label>
       </p-float-label>
       <p-float-label variant="on">
-        <p-select id="bay" inputId="bay" formControlName="bay"
+        <p-select inputId="bay" formControlName="bay"
                   [options]="bayOptions" optionLabel="label" optionValue="value"/>
-        <label for="bay">Bahía</label>
+        <label>Bahía</label>
       </p-float-label>
       <p-floatlabel variant="on" class="input-max-width">
-        <input id="comment" type="text" pInputText formControlName="comment">
-        <label for="comment">Comentarios</label>
+        <input type="text" pInputText formControlName="comment">
+        <label>Comentarios</label>
       </p-floatlabel>
     </div>
   </div>
@@ -86,25 +86,25 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <input id="equipment" pInputText type="text" formControlName="equipment">
-        <label for="equipment">Equipo</label>
+        <input pInputText type="text" formControlName="equipment">
+        <label>Equipo</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <input id="model" pInputText type="text" formControlName="model">
-        <label for="model">Modelo</label>
+        <input pInputText type="text" formControlName="model">
+        <label>Modelo</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-select id="brand" inputId="brand" formControlName="brand"
+        <p-select inputId="brand" formControlName="brand"
                   [options]="brandOptions" optionLabel="label" optionValue="value"/>
-        <label for="brand">Marca</label>
+        <label>Marca</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <input id="fabricSeries" pInputText type="text" formControlName="fabricSeries">
-        <label for="fabricSeries">Serie de Fábrica</label>
+        <input pInputText type="text" formControlName="fabricSeries">
+        <label>Serie de Fábrica</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <input id="sapCode" pInputText type="text" formControlName="sapCode">
-        <label for="sapCode">Código SAP</label>
+        <input pInputText type="text" formControlName="sapCode">
+        <label>Código SAP</label>
       </p-floatlabel>
     </div>
   </div>
@@ -115,20 +115,20 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-date-picker id="requirement" formControlName="requirement" dateFormat="dd/mm/yy"/>
-        <label for="requirement">Fecha de Requerimiento</label>
+        <p-date-picker formControlName="requirement" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Requerimiento</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="arrival" formControlName="arrival" dateFormat="dd/mm/yy"/>
-        <label for="arrival">Fecha de Llegada</label>
+        <p-date-picker formControlName="arrival" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Llegada</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="woCreation" formControlName="woCreation" dateFormat="dd/mm/yy"/>
-        <label for="woCreation">Creación de Work Order</label>
+        <p-date-picker formControlName="woCreation" dateFormat="dd/mm/yy"/>
+        <label>Creación de Work Order</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="firstLabor" formControlName="firstLabor" dateFormat="dd/mm/yy"/>
-        <label for="firstLabor">First Labor</label>
+        <p-date-picker formControlName="firstLabor" dateFormat="dd/mm/yy"/>
+        <label>First Labor</label>
       </p-floatlabel>
     </div>
   </div>
@@ -139,20 +139,20 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-date-picker id="evaluationPlanStart" formControlName="evaluationPlanStart" dateFormat="dd/mm/yy"/>
-        <label for="evaluationPlanStart">Inicio Planeado de la Evaluación</label>
+        <p-date-picker formControlName="evaluationPlanStart" dateFormat="dd/mm/yy"/>
+        <label>Inicio Planeado de la Evaluación</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="evaluationRealStart" formControlName="evaluationRealStart" dateFormat="dd/mm/yy"/>
-        <label for="evaluationRealStart">Inicio Real de la Evaluación</label>
+        <p-date-picker formControlName="evaluationRealStart" dateFormat="dd/mm/yy"/>
+        <label>Inicio Real de la Evaluación</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="evaluationPlanEnd" formControlName="evaluationPlanEnd" dateFormat="dd/mm/yy"/>
-        <label for="evaluationPlanEnd">Fin Planeado de la Evaluación</label>
+        <p-date-picker formControlName="evaluationPlanEnd" dateFormat="dd/mm/yy"/>
+        <label>Fin Planeado de la Evaluación</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="evaluationRealEnd" formControlName="evaluationRealEnd" dateFormat="dd/mm/yy"/>
-        <label for="evaluationRealEnd">Fin Real de la Evaluación</label>
+        <p-date-picker formControlName="evaluationRealEnd" dateFormat="dd/mm/yy"/>
+        <label>Fin Real de la Evaluación</label>
       </p-floatlabel>
     </div>
   </div>
@@ -163,17 +163,17 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-date-picker id="sendingDate" formControlName="sendingDate" dateFormat="dd/mm/yy"/>
-        <label for="sendingDate">Fecha de Envío de Presupuesto</label>
+        <p-date-picker formControlName="sendingDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Envío de Presupuesto</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="receptionDate" formControlName="sendingDate" dateFormat="dd/mm/yy"/>
-        <label for="receptionDate">Aprobación / Rechazo de Presupuesto</label>
+        <p-date-picker formControlName="sendingDate" dateFormat="dd/mm/yy"/>
+        <label>Aprobación / Rechazo de Presupuesto</label>
       </p-floatlabel>
       <p-float-label variant="on">
-        <p-select id="budgetState" inputId="budgetState" formControlName="budgetState"
+        <p-select inputId="budgetState" formControlName="budgetState"
                   [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
-        <label for="budgetState">Estado del Presupuesto</label>
+        <label>Estado del Presupuesto</label>
       </p-float-label>
     </div>
   </div>
@@ -184,25 +184,25 @@
     </header>
     <div class="form-container">
       <p-float-label variant="on">
-        <p-select id="providerState" inputId="providerState" formControlName="providerState"
+        <p-select inputId="providerState" formControlName="providerState"
                   [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
-        <label for="providerState">Estado del Proveedor</label>
+        <label>Estado del Proveedor</label>
       </p-float-label>
       <p-floatlabel variant="on">
-        <p-date-picker id="providerPlanStart" formControlName="providerPlanStart" dateFormat="dd/mm/yy"/>
-        <label for="providerPlanStart">Inicio Planeado de Proveedor</label>
+        <p-date-picker formControlName="providerPlanStart" dateFormat="dd/mm/yy"/>
+        <label>Inicio Planeado de Proveedor</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="providerRealStart" formControlName="providerRealStart" dateFormat="dd/mm/yy"/>
-        <label for="providerRealStart">Inicio Real de Proveedor</label>
+        <p-date-picker formControlName="providerRealStart" dateFormat="dd/mm/yy"/>
+        <label>Inicio Real de Proveedor</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="providerPlanEnd" formControlName="providerPlanEnd" dateFormat="dd/mm/yy"/>
-        <label for="providerPlanEnd">Fin Planeado de Proveedor</label>
+        <p-date-picker formControlName="providerPlanEnd" dateFormat="dd/mm/yy"/>
+        <label>Fin Planeado de Proveedor</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="providerRealEnd" formControlName="providerRealEnd" dateFormat="dd/mm/yy"/>
-        <label for="providerRealEnd">Fin Real de Proveedor</label>
+        <p-date-picker formControlName="providerRealEnd" dateFormat="dd/mm/yy"/>
+        <label>Fin Real de Proveedor</label>
       </p-floatlabel>
     </div>
   </div>
@@ -213,21 +213,21 @@
     </header>
     <div class="form-container">
       <p-float-label variant="on">
-        <p-select id="partState" inputId="partState" formControlName="partState"
+        <p-select inputId="partState" formControlName="partState"
                   [options]="defaultStateOptions" optionLabel="label" optionValue="value"/>
-        <label for="partState">Estado de los Repuestos</label>
+        <label>Estado de los Repuestos</label>
       </p-float-label>
       <p-floatlabel variant="on">
-        <p-date-picker id="orderDate" formControlName="orderDate" dateFormat="dd/mm/yy"/>
-        <label for="orderDate">Fecha de Pedido de Repuestos</label>
+        <p-date-picker formControlName="orderDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Pedido de Repuestos</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="partPlanArrival" formControlName="partPlanArrival" dateFormat="dd/mm/yy"/>
-        <label for="partPlanArrival">Llegada Planeada de Repuestos</label>
+        <p-date-picker formControlName="partPlanArrival" dateFormat="dd/mm/yy"/>
+        <label>Llegada Planeada de Repuestos</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="partRealArrival" formControlName="partRealArrival" dateFormat="dd/mm/yy"/>
-        <label for="partRealArrival">Llegada Real de Repuestos</label>
+        <p-date-picker formControlName="partRealArrival" dateFormat="dd/mm/yy"/>
+        <label>Llegada Real de Repuestos</label>
       </p-floatlabel>
     </div>
   </div>
@@ -238,20 +238,20 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-date-picker id="repairPlanStart" formControlName="repairPlanStart" dateFormat="dd/mm/yy"/>
-        <label for="repairPlanStart">Fecha Planeada de Inicio</label>
+        <p-date-picker formControlName="repairPlanStart" dateFormat="dd/mm/yy"/>
+        <label>Fecha Planeada de Inicio</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="repairRealStart" formControlName="repairRealStart" dateFormat="dd/mm/yy"/>
-        <label for="repairRealStart">Fecha Real de Inicio</label>
+        <p-date-picker formControlName="repairRealStart" dateFormat="dd/mm/yy"/>
+        <label>Fecha Real de Inicio</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="repairPlanEnd" formControlName="repairPlanEnd" dateFormat="dd/mm/yy"/>
-        <label for="repairPlanEnd">Fecha Planeada de Fin</label>
+        <p-date-picker formControlName="repairPlanEnd" dateFormat="dd/mm/yy"/>
+        <label>Fecha Planeada de Fin</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="repairRealEnd" formControlName="repairRealEnd" dateFormat="dd/mm/yy"/>
-        <label for="repairRealEnd">Fecha Real de Fin</label>
+        <p-date-picker formControlName="repairRealEnd" dateFormat="dd/mm/yy"/>
+        <label>Fecha Real de Fin</label>
       </p-floatlabel>
     </div>
   </div>
@@ -262,32 +262,32 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <p-date-picker id="lastLabor" formControlName="lastLabor" dateFormat="dd/mm/yy"/>
-        <label for="lastLabor">Last Labor</label>
+        <p-date-picker formControlName="lastLabor" dateFormat="dd/mm/yy"/>
+        <label>Last Labor</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="realEndDate" formControlName="realEndDate" dateFormat="dd/mm/yy"/>
-        <label for="realEndDate">Fecha de Término Real</label>
+        <p-date-picker formControlName="realEndDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Término Real</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="closingDate" formControlName="closingDate" dateFormat="dd/mm/yy"/>
-        <label for="closingDate">Fecha de Cierre</label>
+        <p-date-picker formControlName="closingDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Cierre</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="billingDate" formControlName="billingDate" dateFormat="dd/mm/yy"/>
-        <label for="billingDate">Fecha de Facturación</label>
+        <p-date-picker formControlName="billingDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Facturación</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="reportSendingDate" formControlName="reportSendingDate" dateFormat="dd/mm/yy"/>
-        <label for="reportSendingDate">Fecha de Envío de Reporte</label>
+        <p-date-picker formControlName="reportSendingDate" dateFormat="dd/mm/yy"/>
+        <label>Fecha de Envío de Reporte</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
-        <p-date-picker id="nbd" formControlName="nbd" dateFormat="dd/mm/yy"/>
-        <label for="nbd">NBD</label>
+        <p-date-picker formControlName="nbd" dateFormat="dd/mm/yy"/>
+        <label>NBD</label>
       </p-floatlabel>
       <p-floatlabel variant="on" class="input-max-width">
-        <input id="nbdChangingDateReason" type="text" pInputText formControlName="nbdChangingDateReason">
-        <label for="nbdChangingDateReason">Motivo de Cambio del NBD</label>
+        <input type="text" pInputText formControlName="nbdChangingDateReason">
+        <label>Motivo de Cambio del NBD</label>
       </p-floatlabel>
     </div>
   </div>
@@ -298,17 +298,17 @@
     </header>
     <div class="form-container">
       <p-floatlabel variant="on">
-        <input id="compliance" pInputText type="text" formControlName="compliance">
-        <label for="compliance">¿Cumple?</label>
+        <input pInputText type="text" formControlName="compliance">
+        <label>¿Cumple?</label>
       </p-floatlabel>
       <p-float-label variant="on">
-        <p-select id="complianceMotive" inputId="complianceMotive" formControlName="complianceMotive"
+        <p-select inputId="complianceMotive" formControlName="complianceMotive"
                   [options]="complianceMotiveOptions" optionLabel="label" optionValue="value"/>
-        <label for="complianceMotive">Motivo</label>
+        <label>Motivo</label>
       </p-float-label>
       <p-floatlabel variant="on" class="input-max-width">
-        <input id="motiveDetails" pInputText type="text" formControlName="motiveDetails">
-        <label for="motiveDetails">Detalles de cumplimiento</label>
+        <input pInputText type="text" formControlName="motiveDetails">
+        <label>Detalles de cumplimiento</label>
       </p-floatlabel>
     </div>
   </div>
