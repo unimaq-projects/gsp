@@ -1,6 +1,16 @@
 nav{
   padding: 1.5rem 2rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
   color: var(--text-inverted-color);
   background-color: var(--unimaq-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p-multiselect{
+  margin-right: 2rem;
+  width: 300px;
 }
