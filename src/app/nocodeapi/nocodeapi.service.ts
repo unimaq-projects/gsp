@@ -16,10 +16,6 @@ export class NocodeapiService {
   };
   constructor() {}
 
-  async getData() {
-    return this.http.get(`${this.baseUrl}?tabId=gsp`);
-  }
-
   async addData(data: any) {
     return this.http.post(`${this.baseUrl}?${this.tabId}`, data, {
       headers: { 'Content-Type': 'application/json' }
@@ -34,7 +30,7 @@ export class NocodeapiService {
   async getRequestById(requestId: number) {
     const apiURL = `${this.baseUrl}/search?${this.tabId}&searchKey=Request&searchValue=${requestId}`;
     const response = await axios.get(apiURL, { headers: this.headers });
-    const workOrder = response.data.map((workOrder: any) => 
+    const workOrder = response.data.map((workOrder: any) =>
       new WorkorderEntity({
         request: workOrder.Request,
         quote: workOrder.Quote,
@@ -95,5 +91,4 @@ export class NocodeapiService {
     );
     return workOrder;
   }
-
 }

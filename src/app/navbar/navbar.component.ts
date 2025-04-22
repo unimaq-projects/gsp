@@ -1,19 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MultiSelectModule } from 'primeng/multiselect';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Select} from 'primeng/select';
+import {FormControl} from '@angular/forms';
 import {ShowOnlyEnum} from '../request/enums/show-only.enum';
 
 @Component({
   selector: 'navbar-component',
-  imports: [MultiSelectModule],
+  imports: [Select],
   templateUrl: './navbar.component.html',
   standalone: true,
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit{
-  @Input() showOnly: string = "";
+export class NavbarComponent implements OnInit {
+  showOnlyControl = new FormControl(ShowOnlyEnum.TODOS);
   showOnlyOptions: { label: string; value: string }[] = [];
+  @Output() showOnlyChanged = new EventEmitter<ShowOnlyEnum>();
 
-  ngOnInit(): void {
-    this.showOnlyOptions = Object.values(ShowOnlyEnum).map((show) => ({label: show, value: show}));
+  ngOnInit() {
+    this.showOnlyOptions = Object.values(ShowOnlyEnum).map(key => ({ label: key, value: key }));
+
+    this.showOnlyControl.valueChanges.subscribe(value => {
+      if (value !== null) {
+        this.showOnlyChanged.emit(value);
+      }
+    });
   }
 }

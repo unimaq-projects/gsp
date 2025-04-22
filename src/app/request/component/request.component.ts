@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FooterComponent } from "../../footer/footer.component";
+import {ShowOnlyEnum} from '../enums/show-only.enum';
 
 @Component({
   selector: 'app-request',
@@ -40,43 +41,42 @@ import { FooterComponent } from "../../footer/footer.component";
     Button,
     InputNumberModule,
     FooterComponent
-],
+  ],
   templateUrl: './request.component.html',
   standalone: true,
   styleUrl: './request.component.css',
-  providers: [MessageService]
+  providers: [MessageService, NavbarComponent]
 })
 export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
   noCodeApiService: NocodeapiService = new NocodeapiService();
   rowId: number | null = null;
-  //Detailed Information
+  //Entities
+  private supervisorEntity: SupervisorEntity = new SupervisorEntity();
+  private technicianEntity: TechnicianEntity = new TechnicianEntity();
+  //Options
+  showOnlyOptions: { label: string; value: string }[] = [];
   branchOptions: { label: string; value: string }[] = [];
   supervisorOptions: { label: string; value: string }[] = [];
   technicianOptions: { label: string; value: string }[] = [];
   attentionTypeOptions: { label: string; value: string }[] = [];
   requestStateOptions: { label: string; value: string }[] = [];
   bayOptions: { label: string; value: string }[] = [];
+  brandOptions: { label: string; value: string }[] = [];
+  defaultStateOptions: { label: string; value: string }[] = [];
+  complianceMotiveOptions: { label: string; value: string }[] = [];
+  //Subscription
   private branchSubscription?: Subscription;
   private technicianSubscription?: Subscription;
   private complianceSubscription?: Subscription;
   private workOrderSubscription?: Subscription;
-  private supervisorEntity: SupervisorEntity = new SupervisorEntity();
-  private technicianEntity: TechnicianEntity = new TechnicianEntity();
-
-  // Equipment Information
-  brandOptions: { label: string; value: string }[] = [];
-
-  // Budget Dates
-  defaultStateOptions: { label: string; value: string }[] = [];
-
-  // Compliance
-  complianceMotiveOptions: { label: string; value: string }[] = [];
+  private showOnlySubscription!: Subscription;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private workorderDataSharingService: WorkorderDataSharingService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private navbarComponent: NavbarComponent
   ) {}
 
   ngOnInit(): void {
@@ -85,12 +85,15 @@ export class RequestComponent implements OnInit, OnDestroy {
     this.subscribeToBranchChanges();
     this.subscribeToWorkOrderData();
     this.subscribeToDateChanges();
+    this.subscribeToShowOnlyChanges();
   }
 
   ngOnDestroy(): void {
     if (this.branchSubscription) this.branchSubscription.unsubscribe();
     if (this.technicianSubscription) this.technicianSubscription.unsubscribe();
     if (this.workOrderSubscription) this.workOrderSubscription.unsubscribe();
+    if (this.complianceSubscription) this.complianceSubscription.unsubscribe();
+    this.showOnlySubscription.unsubscribe();
   }
 
   initForm(): void {
@@ -165,6 +168,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   loadDropdownOptions(): void {
+    this.showOnlyOptions = Object.values(ShowOnlyEnum).map((show) => ({label: show, value: show}));
     this.branchOptions = Object.values(BranchEnum).map((branch) => ({ label: branch, value: branch }));
     this.attentionTypeOptions = Object.values(AttentionTypeEnum).map((attentionType) => ({ label: attentionType, value: attentionType }));
     this.requestStateOptions = Object.values(StateEnum).map((state) => ({ label: state, value: state }));
@@ -208,20 +212,82 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   subscribeToDateChanges(): void {
-    this.requestForm.get('nbd')?.valueChanges.subscribe(nbdDate => {
+    this.requestForm.get('nbd')?.valueChanges.subscribe(_ => {
       this.checkCompliance();
     });
-    this.requestForm.get('realEndDate')?.valueChanges.subscribe(realEndDate => {
+    this.requestForm.get('realEndDate')?.valueChanges.subscribe(_ => {
       this.checkCompliance();
     });
   }
 
-  populateForm(workOrder: WorkorderEntity): void {
-    this.requestForm.get('request')?.disable();
+  subscribeToShowOnlyChanges(): void {
+    this.showOnlySubscription = this.navbarComponent.showOnlyChanged.subscribe(selectedRole => {
+      this.updateFormControls(selectedRole);
+    });
+  }
+
+  updateFormControls(role: ShowOnlyEnum): void {
+    this.enableAllFormControls();
+    this.disableDefaultFields();
+    switch (role) {
+      case ShowOnlyEnum.PLANNER:
+        this.disablePlannerSpecificFields();
+        break;
+      case ShowOnlyEnum.PROGRAMADOR:
+        this.disableProgrammerSpecificFields();
+        break;
+      case ShowOnlyEnum.ASISTENTE:
+        this.disableAssistantSpecificFields();
+        break;
+      case ShowOnlyEnum.JEFE_REGIONAL:
+        this.disableJefeRegionalSpecificFields();
+        break;
+      default:
+        break;
+    }
+  }
+
+  enableAllFormControls(): void {
+    Object.keys(this.requestForm.controls).forEach(controlName => {
+      this.requestForm.get(controlName)?.enable();
+    });
+  }
+
+  disableDefaultFields(): void {
+    if(this.rowId != null) {
+      this.requestForm.get('request')?.disable();
+      this.requestForm.get('wo')?.disable();
+      this.requestForm.get('io')?.disable();
+      this.requestForm.get('quote')?.disable();
+    }
+  }
+
+  disablePlannerSpecificFields(): void {
     this.requestForm.get('wo')?.disable();
     this.requestForm.get('io')?.disable();
-    this.requestForm.get('quote')?.disable();
+  }
+
+  disableProgrammerSpecificFields(): void {
+    this.requestForm.get('evaluationPlanStart')?.disable();
+    this.requestForm.get('evaluationRealStart')?.disable();
+    this.requestForm.get('evaluationPlanEnd')?.disable();
+    this.requestForm.get('evaluationRealEnd')?.disable();
+  }
+
+  disableAssistantSpecificFields(): void {
+    this.requestForm.get('billingDate')?.disable();
+    this.requestForm.get('reportSendingDate')?.disable();
+  }
+
+  disableJefeRegionalSpecificFields(): void {
+    this.requestForm.get('budgetState')?.disable();
+    this.requestForm.get('providerState')?.disable();
+    this.requestForm.get('partState')?.disable();
+  }
+
+  populateForm(workOrder: WorkorderEntity): void {
     this.rowId = workOrder.rowId;
+    this.disableDefaultFields();
     this.requestForm.patchValue({
       request: workOrder.request,
       wo: workOrder.wo,
