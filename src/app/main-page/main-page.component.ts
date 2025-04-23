@@ -5,10 +5,10 @@ import {FloatLabel} from 'primeng/floatlabel';
 import { ToastModule } from 'primeng/toast';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NocodeapiService} from '../nocodeapi/nocodeapi.service';
 import {WorkorderEntity} from '../request/entities/workorder.entity';
 import { MessageService } from 'primeng/api';
 import { WorkorderDataSharingService } from '../request/services/workorder-data-sharing.service';
+import { AppScriptService } from '../app-script/app-script.service';
 
 @Component({
   selector: 'app-main-page',
@@ -28,7 +28,7 @@ import { WorkorderDataSharingService } from '../request/services/workorder-data-
 })
 export class MainPageComponent {
   request: number = 0;
-  nocodeapiService: NocodeapiService = new NocodeapiService();
+  appScriptService: AppScriptService = new AppScriptService();
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -37,7 +37,7 @@ export class MainPageComponent {
   async goToWorkOrder(search?:boolean):Promise<WorkorderEntity | any> {
     if(!search) this.router.navigate(['work-order']);
     try {
-      const data = await this.nocodeapiService.getRequestById(this.request);
+      const data = await this.appScriptService.getRequestById(this.request);
       if(data.length === 0) {
         this.messageService.add({ severity: 'warn', summary: 'Error', detail: 'Request no encontrado', life: 3000 });
         return;

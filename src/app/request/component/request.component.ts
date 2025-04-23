@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular
 import {NavbarComponent} from '../../navbar/navbar.component';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
-import {NocodeapiService} from '../../nocodeapi/nocodeapi.service';
 import {Select} from 'primeng/select';
 import {Subscription} from 'rxjs';
 import {SupervisorEntity} from '../entities/supervisor.entity';
@@ -26,6 +25,7 @@ import { MessageService } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FooterComponent } from "../../footer/footer.component";
 import {ShowOnlyEnum} from '../enums/show-only.enum';
+import { AppScriptService } from '../../app-script/app-script.service';
 
 @Component({
   selector: 'app-request',
@@ -49,7 +49,7 @@ import {ShowOnlyEnum} from '../enums/show-only.enum';
 })
 export class RequestComponent implements OnInit, OnDestroy {
   requestForm!: FormGroup;
-  noCodeApiService: NocodeapiService = new NocodeapiService();
+  appScriptService: AppScriptService = new AppScriptService();
   rowId: number | null = null;
   //Entities
   private supervisorEntity: SupervisorEntity = new SupervisorEntity();
@@ -447,7 +447,7 @@ export class RequestComponent implements OnInit, OnDestroy {
     dataToSend.Bahia = formData.bay;
     if (this.rowId != null) {
       try {
-        await this.noCodeApiService.updateRow(dataToSend);
+        await this.appScriptService.updateRow(dataToSend);
         this.messageService.add({ severity: 'success', summary: 'Info', detail: 'Fila actualizada satisfactoriamente', life: 3000 });
       } catch (err) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al actualizar fila', life: 3000 });
@@ -455,7 +455,7 @@ export class RequestComponent implements OnInit, OnDestroy {
       }
     } else {
       try {
-        (await this.noCodeApiService.addData([dataToSend])).subscribe({
+        (await this.appScriptService.addData([dataToSend])).subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Info', detail: 'Fila agregada satisfactoriamente', life: 3000 });
           },
